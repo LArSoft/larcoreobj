@@ -17,7 +17,6 @@
 // support libraries
 #include "fhiclcpp/types/Table.h"
 #include "fhiclcpp/ParameterSet.h"
-#include "fhiclcpp/make_ParameterSet.h"
 
 
 // C/C++ standard libraries
@@ -31,7 +30,7 @@
 template <typename Config>
 fhicl::Table<Config> validateConfig(std::string const& configStr) {
   fhicl::ParameterSet pset;
-  fhicl::make_ParameterSet(configStr, pset);
+  pset = fhicl::ParameterSet::make(configStr);
   fhicl::Table<Config> validatedConfig { fhicl::Name("validatedConfig") };
 
   std::cout << std::string(80, '-') << std::endl;
