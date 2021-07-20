@@ -7,8 +7,7 @@
 
 // Boost libraries
 #define BOOST_TEST_MODULE ( readout_types_fhicl_test )
-#include <cetlib/quiet_unit_test.hpp> // BOOST_AUTO_TEST_CASE()
-#include <boost/test/test_tools.hpp> // BOOST_CHECK(), BOOST_CHECK_EQUAL()
+#include "boost/test/unit_test.hpp"
 
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/readout_types_fhicl.h"
@@ -61,10 +60,10 @@ void test_CryostatID_normal() {
 
   auto const id = geo::fhicl::readID(validatedConfig.Cryo);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.Cryo().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.Cryo().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_CryostatID_normal()
 
@@ -81,10 +80,10 @@ void test_CryostatID_invalid() {
 
   auto const id = geo::fhicl::readID(validatedConfig.Cryo);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.Cryo().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.Cryo().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_CryostatID_invalid()
 
@@ -101,10 +100,10 @@ void test_OptionalCryostatID_present() {
   auto validatedConfig = validateConfig<Config>(configStr)();
 
   std::optional<ID_t> const id = readOptionalID(validatedConfig.Cryo);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalCryostatID_present()
@@ -124,10 +123,10 @@ void test_OptionalCryostatID_omitted() {
 
   std::optional<ID_t> const id
     = geo::fhicl::readOptionalID(validatedConfig.Cryo);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalCryostatID_omitted()
@@ -149,15 +148,15 @@ void test_CryostatIDsequence_normal() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.Cryos);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), expectedIDs.size());
+  BOOST_TEST(ids.size() == expectedIDs.size());
   auto const n = std::min(ids.size(), expectedIDs.size());
   for (std::size_t i = 0; i < n; ++i) {
     auto const& id = ids[i];
     ID_t const& expectedID = expectedIDs[i];
 
     BOOST_TEST_CONTEXT("Item [" << i << "]") {
-      BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-      if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+      BOOST_TEST(id.isValid == expectedID.isValid);
+      if (expectedID.isValid) BOOST_TEST(id == expectedID);
     } // BOOST_TEST_CONTEXT
   } // for
 
@@ -177,7 +176,7 @@ void test_CryostatIDsequence_empty() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.Cryos);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), 0U);
+  BOOST_TEST(ids.size() == 0U);
 
 } // test_CryostatIDsequence_empty()
 
@@ -198,17 +197,17 @@ void test_OptionalCryostatIDsequence_normal() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -231,17 +230,17 @@ void test_OptionalCryostatIDsequence_empty() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -264,17 +263,17 @@ void test_OptionalCryostatIDsequence_omitted() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -299,10 +298,10 @@ void test_TPCsetID_normal() {
 
   auto const id = geo::fhicl::readID(validatedConfig.TPCset);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.TPCset().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.TPCset().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_TPCsetID_normal()
 
@@ -319,10 +318,10 @@ void test_TPCsetID_invalid() {
 
   auto const id = geo::fhicl::readID(validatedConfig.TPCset);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.TPCset().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.TPCset().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_TPCsetID_invalid()
 
@@ -339,10 +338,10 @@ void test_OptionalTPCsetID_present() {
   auto validatedConfig = validateConfig<Config>(configStr)();
 
   std::optional<ID_t> const id = readOptionalID(validatedConfig.TPC);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalTPCsetID_present()
@@ -362,10 +361,10 @@ void test_OptionalTPCsetID_omitted() {
 
   std::optional<ID_t> const id
     = geo::fhicl::readOptionalID(validatedConfig.TPCset);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalTPCsetID_omitted()
@@ -387,15 +386,15 @@ void test_TPCsetIDsequence_normal() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.TPCsets);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), expectedIDs.size());
+  BOOST_TEST(ids.size() == expectedIDs.size());
   auto const n = std::min(ids.size(), expectedIDs.size());
   for (std::size_t i = 0; i < n; ++i) {
     auto const& id = ids[i];
     ID_t const& expectedID = expectedIDs[i];
 
     BOOST_TEST_CONTEXT("Item [" << i << "]") {
-      BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-      if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+      BOOST_TEST(id.isValid == expectedID.isValid);
+      if (expectedID.isValid) BOOST_TEST(id == expectedID);
     } // BOOST_TEST_CONTEXT
   } // for
 
@@ -415,7 +414,7 @@ void test_TPCsetIDsequence_empty() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.TPCsets);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), 0U);
+  BOOST_TEST(ids.size() == 0U);
 
 } // test_TPCsetIDsequence_empty()
 
@@ -437,17 +436,17 @@ void test_OptionalTPCsetIDsequence_normal() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -471,17 +470,17 @@ void test_OptionalTPCsetIDsequence_empty() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -505,17 +504,17 @@ void test_OptionalTPCsetIDsequence_omitted() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -539,10 +538,10 @@ void test_ROPID_normal() {
 
   auto const id = geo::fhicl::readID(validatedConfig.ROP);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.ROP().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.ROP().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_ROPID_normal()
 
@@ -559,10 +558,10 @@ void test_ROPID_invalid() {
 
   auto const id = geo::fhicl::readID(validatedConfig.ROP);
   static_assert(std::is_same_v<decltype(id), ID_t const>);
-  BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
+  BOOST_TEST(id.isValid == expectedID.isValid);
   if (expectedID.isValid) {
-    BOOST_CHECK_EQUAL(validatedConfig.ROP().ID(), expectedID);
-    BOOST_CHECK_EQUAL(id, expectedID);
+    BOOST_TEST(validatedConfig.ROP().ID() == expectedID);
+    BOOST_TEST(id == expectedID);
   }
 } // test_ROPID_invalid()
 
@@ -578,10 +577,10 @@ void test_OptionalROPID_present() {
   auto validatedConfig = validateConfig<Config>(configStr)();
 
   std::optional<ID_t> const id = readOptionalID(validatedConfig.ROP);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalROPID_present()
@@ -600,10 +599,10 @@ void test_OptionalROPID_omitted() {
 
   std::optional<ID_t> const id
     = geo::fhicl::readOptionalID(validatedConfig.ROP);
-  BOOST_CHECK_EQUAL(id.has_value(), expectedID.has_value());
+  BOOST_TEST(id.has_value() == expectedID.has_value());
   if (expectedID.has_value()) {
-    BOOST_CHECK_EQUAL(id->isValid, expectedID->isValid);
-    if (expectedID->isValid) BOOST_CHECK_EQUAL(id.value(), expectedID.value());
+    BOOST_TEST(id->isValid == expectedID->isValid);
+    if (expectedID->isValid) BOOST_TEST(id.value() == expectedID.value());
   }
 
 } // test_OptionalROPID_omitted()
@@ -627,15 +626,15 @@ void test_ROPIDsequence_normal() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.ROPs);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), expectedIDs.size());
+  BOOST_TEST(ids.size() == expectedIDs.size());
   auto const n = std::min(ids.size(), expectedIDs.size());
   for (std::size_t i = 0; i < n; ++i) {
     auto const& id = ids[i];
     ID_t const& expectedID = expectedIDs[i];
 
     BOOST_TEST_CONTEXT("Item [" << i << "]") {
-      BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-      if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+      BOOST_TEST(id.isValid == expectedID.isValid);
+      if (expectedID.isValid) BOOST_TEST(id == expectedID);
     } // BOOST_TEST_CONTEXT
   } // for
 
@@ -654,7 +653,7 @@ void test_ROPIDsequence_empty() {
   auto ids = geo::fhicl::readIDsequence(validatedConfig.ROPs);
   static_assert(std::is_same_v<decltype(ids), std::vector<ID_t>>);
 
-  BOOST_CHECK_EQUAL(ids.size(), 0U);
+  BOOST_TEST(ids.size() == 0U);
 
 } // test_ROPIDsequence_empty()
 
@@ -676,17 +675,17 @@ void test_OptionalROPIDsequence_normal() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -709,17 +708,17 @@ void test_OptionalROPIDsequence_empty() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -742,17 +741,17 @@ void test_OptionalROPIDsequence_omitted() {
   static_assert
     (std::is_same_v<decltype(ids), std::optional<std::vector<ID_t>>>);
 
-  BOOST_CHECK_EQUAL(ids.has_value(), expectedIDs.has_value());
+  BOOST_TEST(ids.has_value() == expectedIDs.has_value());
   if (expectedIDs.has_value()) {
-    BOOST_CHECK_EQUAL(ids->size(), expectedIDs->size());
+    BOOST_TEST(ids->size() == expectedIDs->size());
     auto const n = std::min(ids->size(), expectedIDs->size());
     for (std::size_t i = 0; i < n; ++i) {
       auto const& id = ids.value()[i];
       ID_t const& expectedID = expectedIDs.value()[i];
 
       BOOST_TEST_CONTEXT("Item [" << i << "]") {
-        BOOST_CHECK_EQUAL(id.isValid, expectedID.isValid);
-        if (expectedID.isValid) BOOST_CHECK_EQUAL(id, expectedID);
+        BOOST_TEST(id.isValid == expectedID.isValid);
+        if (expectedID.isValid) BOOST_TEST(id == expectedID);
       } // BOOST_TEST_CONTEXT
     } // for
   }
@@ -816,7 +815,7 @@ void test_ROPUnifiedInterface() {
   //
   auto id11 = geo::fhicl::readParameter(config().ROP);
   static_assert(std::is_same_v<decltype(id11), ID_t>);
-  BOOST_CHECK_EQUAL(id11, expected1);
+  BOOST_TEST(id11 == expected1);
 
   //
   // read optional atom
@@ -825,41 +824,41 @@ void test_ROPUnifiedInterface() {
   // this one is present (default values should be ignored):
   auto id21 = geo::fhicl::readParameter(config().MaybeROP);
   static_assert(std::is_same_v<decltype(id21), std::optional<ID_t>>);
-  BOOST_CHECK(id21.has_value());
-  if (id21.has_value()) BOOST_CHECK_EQUAL(id21.value(), expected2);
+  BOOST_TEST(id21.has_value());
+  if (id21.has_value()) BOOST_TEST(id21.value() == expected2);
 
   default3value = default3;
   auto id22 = geo::fhicl::readParameter(config().MaybeROP, default3);
   static_assert(std::is_same_v<decltype(id22), ID_t>);
-  BOOST_CHECK_EQUAL(id22, expected2);
-  BOOST_CHECK_EQUAL(default3value, default3);
+  BOOST_TEST(id22 == expected2);
+  BOOST_TEST(default3value == default3);
 
   default3value = default3;
   auto id23
     = geo::fhicl::readParameter(config().MaybeROP, std::move(default3));
   static_assert(std::is_same_v<decltype(id23), ID_t>);
-  BOOST_CHECK_EQUAL(id23, expected2);
-  BOOST_CHECK_EQUAL(default3value, default3);
+  BOOST_TEST(id23 == expected2);
+  BOOST_TEST(default3value == default3);
 
   // this one is omitted:
   auto id31 = geo::fhicl::readParameter(config().NoROP);
   static_assert(std::is_same_v<decltype(id31), std::optional<ID_t>>);
-  BOOST_CHECK(!id31.has_value());
+  BOOST_TEST(!id31.has_value());
 
   default3value = default3;
   auto id32 = geo::fhicl::readParameter(config().NoROP, default3);
   static_assert(std::is_same_v<decltype(id32), ID_t>);
-  BOOST_CHECK_EQUAL(id32, default3);
-  BOOST_CHECK_EQUAL(default3value, default3);
+  BOOST_TEST(id32 == default3);
+  BOOST_TEST(default3value == default3);
 
   default3value = default3;
   auto id33 = geo::fhicl::readParameter(config().NoROP, std::move(default3));
   static_assert(std::is_same_v<decltype(id33), ID_t>);
-  BOOST_CHECK_EQUAL(id33, default3);
+  BOOST_TEST(id33 == default3);
 
   // test for compilation
   auto id34 = geo::fhicl::readParameter(config().NoROP, { 1U, 3U, 6U });
-  BOOST_CHECK_EQUAL(id34, (readout::ROPID{ 1U, 3U, 6U }));
+  BOOST_TEST(id34 == (readout::ROPID{ 1U, 3U, 6U }));
 
 
   //
@@ -867,10 +866,10 @@ void test_ROPUnifiedInterface() {
   //
   auto id41 = geo::fhicl::readParameter(config().ROPs);
   static_assert(std::is_same_v<decltype(id41), std::vector<ID_t>>);
-  BOOST_CHECK_EQUAL(id41.size(), expected4.size());
+  BOOST_TEST(id41.size() == expected4.size());
   std::size_t max41 = std::max(id41.size(), expected4.size());
   for (std::size_t i = 0U; i < max41; ++i) BOOST_TEST_CONTEXT("element " << i) {
-    BOOST_CHECK_EQUAL(id41[i], expected4[i]);
+    BOOST_TEST(id41[i] == expected4[i]);
   }
 
   //
@@ -880,7 +879,7 @@ void test_ROPUnifiedInterface() {
   auto id51 = geo::fhicl::readParameter(config().MaybeROPs);
   static_assert
     (std::is_same_v<decltype(id51), std::optional<std::vector<ID_t>>>);
-  BOOST_CHECK(id51.has_value());
+  BOOST_TEST(id51.has_value());
   if (id51.has_value()) {
     BOOST_CHECK_EQUAL_COLLECTIONS
       (id51->begin(), id51->end(), expected5.begin(), expected5.end());
@@ -911,7 +910,7 @@ void test_ROPUnifiedInterface() {
   auto id61 = geo::fhicl::readParameter(config().NoROPs);
   static_assert
     (std::is_same_v<decltype(id61), std::optional<std::vector<ID_t>>>);
-  BOOST_CHECK(!id61.has_value());
+  BOOST_TEST(!id61.has_value());
 
   default6value = default6;
   auto id62 = geo::fhicl::readParameter(config().NoROPs, default6value);
@@ -932,7 +931,7 @@ void test_ROPUnifiedInterface() {
   // this is a bit out of standard, since after moving an object is guaranteed
   // only to be good for destruction; yet usually implementations of std::vector
   // leave it as a fully valid empty vector:
-  BOOST_CHECK(default6value.empty());
+  BOOST_TEST(default6value.empty());
 
 } // test_ROPUnifiedInterface()
 
