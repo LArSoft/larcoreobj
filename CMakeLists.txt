@@ -9,6 +9,7 @@
 cmake_minimum_required (VERSION 3.12...3.18 FATAL_ERROR)
 
 project(larcoreobj LANGUAGES CXX)
+set(larcoreobj_CMAKE_PROJECT_VERSION_STRING v09_30_00_rc1)
 
 # cetbuildtools contains our cmake modules
 find_package(cetbuildtools REQUIRED)
