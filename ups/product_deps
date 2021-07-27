@@ -1,6 +1,6 @@
 # The parent line must be the first non-comment line in the file
 # This line defines the product name and version
-parent	larcoreobj	v09_30_00_rc0
+parent	larcoreobj	v09_30_00_rc1
 defaultqual	e19
 
 # These optional lines define the installed directories where
