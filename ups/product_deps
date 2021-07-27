@@ -20,8 +20,8 @@ fcldir product_dir job
 gdmldir product_dir
 #
 product         version
-canvas_root_io	v1_09_03
-cetbuildtools	v8_10_01	-	only_for_build
+canvas_root_io	v1_09_04
+cetbuildtools	v8_11_02	-	only_for_build
 end_product_list
 
 qualifier	canvas_root_io	notes
