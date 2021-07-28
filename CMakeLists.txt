@@ -6,7 +6,7 @@
 #  buildtool [-I /install/path] -bt[i] -jN
 # ======================================================================
 
-cmake_minimum_required (VERSION 3.12...3.18 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
 project(larcoreobj VERSION 09.02.01.01 LANGUAGES CXX)
 
