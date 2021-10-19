@@ -22,8 +22,7 @@
  * (for example, a random seed).
  */
 #define BOOST_TEST_MODULE ( readout_types_test )
-#include <cetlib/quiet_unit_test.hpp> // BOOST_AUTO_TEST_CASE()
-#include <boost/test/test_tools.hpp> // BOOST_CHECK(), BOOST_CHECK_EQUAL()
+#include "boost/test/unit_test.hpp"
 
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/readout_types.h"
@@ -102,33 +101,33 @@ static_assert(
 //
 void TestIDvalidity(readout::CryostatID const& id, bool answer) {
   // - check isValid
-  BOOST_CHECK_EQUAL(id.isValid, answer);
+  BOOST_TEST(id.isValid == answer);
   // - check operator!
-  BOOST_CHECK_EQUAL(!id, !answer);
+  BOOST_TEST(!id == !answer);
   // - check operator bool
-  BOOST_CHECK_EQUAL((bool)id, answer);
+  BOOST_TEST((bool)id == answer);
 } // TestIDvalidity()
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
 void TestCompareSmallerID(TESTID const& id, REFID  const& smaller) {
-  BOOST_CHECK(!(id      <  smaller) );
-  BOOST_CHECK(!(id      == smaller) );
-  BOOST_CHECK(  id      != smaller  );
-  BOOST_CHECK(  smaller <       id  );
-  BOOST_CHECK(smaller.cmp(id) < 0);
-  BOOST_CHECK(id.cmp(smaller) > 0);
+  BOOST_TEST(!(id      <  smaller) );
+  BOOST_TEST(!(id      == smaller) );
+  BOOST_TEST(  id      != smaller  );
+  BOOST_TEST(  smaller <       id  );
+  BOOST_TEST(smaller.cmp(id) < 0);
+  BOOST_TEST(id.cmp(smaller) > 0);
 } // TestCompareSmallerID()
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
 void TestCompareSameID(TESTID const& id, REFID  const& same) {
-  BOOST_CHECK(!(id      <  same) );
-  BOOST_CHECK(  id      == same  );
-  BOOST_CHECK(!(id      != same) );
-  BOOST_CHECK(!(same <     id) );
-  BOOST_CHECK(same.cmp(id) == 0);
-  BOOST_CHECK(id.cmp(same) == 0);
+  BOOST_TEST(!(id      <  same) );
+  BOOST_TEST(  id      == same  );
+  BOOST_TEST(!(id      != same) );
+  BOOST_TEST(!(same <     id) );
+  BOOST_TEST(same.cmp(id) == 0);
+  BOOST_TEST(id.cmp(same) == 0);
 } // TestCompareSameID()
 
 /// Test comparison operators
@@ -139,12 +138,12 @@ void TestCompareSelfID(TESTID const& id)
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
 void TestCompareLargerID(TESTID const& id, REFID  const& larger) {
-  BOOST_CHECK(  id     <  larger  );
-  BOOST_CHECK(  id     != larger  );
-  BOOST_CHECK(!(id     == larger) );
-  BOOST_CHECK(!(larger <      id) );
-  BOOST_CHECK(larger.cmp(id) > 0);
-  BOOST_CHECK(id.cmp(larger) < 0);
+  BOOST_TEST(  id     <  larger  );
+  BOOST_TEST(  id     != larger  );
+  BOOST_TEST(!(id     == larger) );
+  BOOST_TEST(!(larger <      id) );
+  BOOST_TEST(larger.cmp(id) > 0);
+  BOOST_TEST(id.cmp(larger) < 0);
 } // TestCompareLargerID()
 
 
@@ -175,7 +174,7 @@ void test_CryostatID_defaultConstructor() {
 /* // feature not added
   // test assignment from ID_t
   cid = 1;
-  BOOST_CHECK_EQUAL(cid.Cryostat, 1);
+  BOOST_TEST(cid.Cryostat == 1);
 */
 
 } // test_CryostatID_defaultConstructor()
@@ -191,7 +190,7 @@ void test_CryostatID_directConstructor() {
   TestIDvalidity(cid, true);
 
   // check the ID value
-  BOOST_CHECK_EQUAL(cid.Cryostat, readout::CryostatID::CryostatID_t(1));
+  BOOST_TEST(cid.Cryostat == readout::CryostatID::CryostatID_t(1));
 
   // test comparison operators
   // (exercise copy constructor too)
@@ -207,7 +206,7 @@ void test_CryostatID_directConstructor() {
   TestIDvalidity(cid, true);
 
   // check the ID value
-  BOOST_CHECK_EQUAL(first_cid.Cryostat, readout::CryostatID::CryostatID_t(0));
+  BOOST_TEST(first_cid.Cryostat == readout::CryostatID::CryostatID_t(0));
 
 } // test_CryostatID_directConstructor()
 
@@ -256,8 +255,8 @@ void test_TPCsetID_nestedConstructor() {
   TestIDvalidity(sid, true);
 
   // check the ID value
-  BOOST_CHECK_EQUAL(sid.Cryostat, readout::CryostatID::CryostatID_t( 1));
-  BOOST_CHECK_EQUAL(sid.TPCset,       readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(sid.Cryostat == readout::CryostatID::CryostatID_t( 1));
+  BOOST_TEST(sid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
 
   // test comparison operators (exercise copy constructor too)
   // - with TPC ID
@@ -290,13 +289,13 @@ void test_TPCsetID_directConstructor() {
   TestCompareLargerID(sid, larger_cid);
 
   // test setting and accessing a single index
-  BOOST_CHECK_EQUAL(sid.getIndex<0U>(), 1);
+  BOOST_TEST(sid.getIndex<0U>() == 1);
   sid.writeIndex<0U>() = 2;
-  BOOST_CHECK_EQUAL(sid.getIndex<0U>(), 2);
+  BOOST_TEST(sid.getIndex<0U>() == 2);
   
-  BOOST_CHECK_EQUAL(sid.getIndex<1U>(), 15);
+  BOOST_TEST(sid.getIndex<1U>() == 15);
   sid.writeIndex<1U>() = 19;
-  BOOST_CHECK_EQUAL(sid.getIndex<1U>(), 19);
+  BOOST_TEST(sid.getIndex<1U>() == 19);
   
   // make sure the ID with TPC set 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing TPC set ID constructed with a TPC set #0");
@@ -305,8 +304,8 @@ void test_TPCsetID_directConstructor() {
   TestIDvalidity(first_sid, true);
 
   // - check the ID value
-  BOOST_CHECK_EQUAL(first_sid.Cryostat, readout::CryostatID::CryostatID_t(0));
-  BOOST_CHECK_EQUAL(first_sid.TPCset,       readout::TPCsetID::TPCsetID_t(0));
+  BOOST_TEST(first_sid.Cryostat == readout::CryostatID::CryostatID_t(0));
+  BOOST_TEST(first_sid.TPCset ==       readout::TPCsetID::TPCsetID_t(0));
 
 
 } // test_TPCsetID_directConstructor()
@@ -356,9 +355,9 @@ void test_ROPID_nestedConstructor() {
   TestIDvalidity(rid, true);
 
   // check the ID value
-  BOOST_CHECK_EQUAL(rid.Cryostat, readout::CryostatID::CryostatID_t( 1));
-  BOOST_CHECK_EQUAL(rid.TPCset,       readout::TPCsetID::TPCsetID_t(15));
-  BOOST_CHECK_EQUAL(rid.ROP,                readout::ROPID::ROPID_t(32));
+  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t( 1));
+  BOOST_TEST(rid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(rid.ROP ==                readout::ROPID::ROPID_t(32));
 
   // test comparison operators (exercise copy constructor too)
   BOOST_TEST_CHECKPOINT("Testing comparison with ROP ID");
@@ -380,9 +379,9 @@ void test_ROPID_directConstructor() {
   TestIDvalidity(rid, true);
 
   // check the ID value
-  BOOST_CHECK_EQUAL(rid.Cryostat, readout::CryostatID::CryostatID_t( 1));
-  BOOST_CHECK_EQUAL(rid.TPCset,       readout::TPCsetID::TPCsetID_t(15));
-  BOOST_CHECK_EQUAL(rid.ROP,                readout::ROPID::ROPID_t(32));
+  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t( 1));
+  BOOST_TEST(rid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(rid.ROP ==                readout::ROPID::ROPID_t(32));
 
   BOOST_TEST_CHECKPOINT("Testing comparison with same TPC set ID");
 
@@ -409,17 +408,17 @@ void test_ROPID_directConstructor() {
   TestCompareLargerID(rid, larger_cid2);
 
   // test setting and accessing a single index
-  BOOST_CHECK_EQUAL(rid.getIndex<0U>(), 1);
+  BOOST_TEST(rid.getIndex<0U>() == 1);
   rid.writeIndex<0U>() = 2;
-  BOOST_CHECK_EQUAL(rid.getIndex<0U>(), 2);
+  BOOST_TEST(rid.getIndex<0U>() == 2);
   
-  BOOST_CHECK_EQUAL(rid.getIndex<1U>(), 15);
+  BOOST_TEST(rid.getIndex<1U>() == 15);
   rid.writeIndex<1U>() = 19;
-  BOOST_CHECK_EQUAL(rid.getIndex<1U>(), 19);
+  BOOST_TEST(rid.getIndex<1U>() == 19);
   
-  BOOST_CHECK_EQUAL(rid.getIndex<2U>(), 32);
+  BOOST_TEST(rid.getIndex<2U>() == 32);
   rid.writeIndex<2U>() = 76;
-  BOOST_CHECK_EQUAL(rid.getIndex<2U>(), 76);
+  BOOST_TEST(rid.getIndex<2U>() == 76);
   
   // make sure the ID with TPC 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing ROP ID constructed with a ROP #0");
@@ -428,9 +427,9 @@ void test_ROPID_directConstructor() {
   TestIDvalidity(first_rid, true);
 
   // - check the ID value
-  BOOST_CHECK_EQUAL(first_rid.Cryostat, readout::CryostatID::CryostatID_t(0));
-  BOOST_CHECK_EQUAL(first_rid.TPCset,       readout::TPCsetID::TPCsetID_t(0));
-  BOOST_CHECK_EQUAL(first_rid.ROP,                readout::ROPID::ROPID_t(0));
+  BOOST_TEST(first_rid.Cryostat == readout::CryostatID::CryostatID_t(0));
+  BOOST_TEST(first_rid.TPCset ==       readout::TPCsetID::TPCsetID_t(0));
+  BOOST_TEST(first_rid.ROP ==                readout::ROPID::ROPID_t(0));
 
 } // test_ROPID_directConstructor()
 
