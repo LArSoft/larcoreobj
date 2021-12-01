@@ -10,10 +10,7 @@ cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
 project(larcoreobj VERSION 09.03.01 LANGUAGES CXX)
 
-# cetbuildtools contains our cmake modules
 find_package(cetbuildtools REQUIRED)
-
-list(APPEND CMAKE_MODULE_PATH $ENV{CANVAS_ROOT_IO_DIR}/Modules)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -27,9 +24,10 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
 cet_report_compiler_flags()
 
 # these are minimum required versions, not the actual product versions
-find_ups_product( canvas )
-find_ups_product( cetlib )
-find_ups_root()
+find_package(cetlib_except REQUIRED PUBLIC)
+find_package(cetlib REQUIRED PUBLIC)
+find_package(canvas REQUIRED)
+find_package(canvas_root_io REQUIRED)
 
 # macros for artdaq_dictionary and simple_plugin
 include(ArtDictionary)
