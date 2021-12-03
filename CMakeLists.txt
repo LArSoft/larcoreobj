@@ -23,10 +23,9 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
 
 cet_report_compiler_flags()
 
-# these are minimum required versions, not the actual product versions
 find_package(cetlib_except REQUIRED PUBLIC)
 find_package(cetlib REQUIRED PUBLIC)
-find_package(canvas REQUIRED)
+find_package(canvas REQUIRED PUBLIC)
 find_package(canvas_root_io REQUIRED)
 
 # macros for artdaq_dictionary and simple_plugin
