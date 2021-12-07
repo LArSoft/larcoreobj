@@ -8,7 +8,7 @@
 
 cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
 
-project(larcoreobj VERSION 09.03.01 LANGUAGES CXX)
+project(larcoreobj VERSION 09.04.00 LANGUAGES CXX)
 
 find_package(cetbuildtools REQUIRED)
 
