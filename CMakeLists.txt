@@ -6,11 +6,12 @@
 #  buildtool [-I /install/path] -bt[i] -jN
 # ======================================================================
 
-cmake_minimum_required(VERSION 3.19 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.20 FATAL_ERROR)
+# cmake_policy(VERSION 3.19) ### MIGRATE-ACTION-COMPATIBILITY (migrate-3.05.03) - Uncomment to preseve compatibility with older CMake versions
 
+find_package(cetmodules REQUIRED)
 project(larcoreobj VERSION 09.04.00 LANGUAGES CXX)
 
-find_package(cetbuildtools REQUIRED)
 
 include(CetCMakeEnv)
 cet_cmake_env()
@@ -21,11 +22,11 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
   EXTRA_FLAGS -pedantic -Wno-unused-local-typedefs
 )
 
-cet_report_compiler_flags()
+cet_report_compiler_flags() ### MIGRATE-ACTION-RECOMMENDED (migrate-3.05.03) - add args: REPORT_THRESHOLD VERBOSE
 
-find_package(cetlib_except REQUIRED PUBLIC)
-find_package(cetlib REQUIRED PUBLIC)
-find_package(canvas REQUIRED PUBLIC)
+find_package(cetlib_except REQUIRED EXPORT)
+find_package(cetlib REQUIRED EXPORT)
+find_package(canvas REQUIRED EXPORT)
 find_package(canvas_root_io REQUIRED)
 
 # macros for artdaq_dictionary and simple_plugin
@@ -40,7 +41,6 @@ add_subdirectory(larcoreobj)
 add_subdirectory(test)
 
 # ups - table and config files
-add_subdirectory(ups)
 
 # packaging utility
-include(UseCPack)
+cet_cmake_config()
