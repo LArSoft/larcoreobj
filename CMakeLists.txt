@@ -23,10 +23,10 @@ cet_set_compiler_flags(DIAGS CAUTIOUS
 
 cet_report_compiler_flags(REPORT_THRESHOLD VERBOSE)
 
-find_package(cetlib_except REQUIRED EXPORT)
-find_package(cetlib REQUIRED EXPORT)
+find_package(canvas_root_io REQUIRED EXPORT)
 find_package(canvas REQUIRED EXPORT)
-find_package(canvas_root_io REQUIRED)
+find_package(fhiclcpp REQUIRED EXPORT)
+find_package(ROOT COMPONENTS GenVector REQUIRED EXPORT)
 
 include(BuildDictionary)
 

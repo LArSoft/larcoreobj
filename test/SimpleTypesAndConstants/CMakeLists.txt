@@ -3,19 +3,24 @@
 # Testing
 #
 # ======================================================================
+find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
-find_package(Boost REQUIRED)
+cet_test(geo_types_test USE_BOOST_UNIT
+  LIBRARIES PRIVATE larcoreobj::SimpleTypesAndConstants)
 
-cet_test( geo_types_test USE_BOOST_UNIT )
-cet_test( readout_types_test USE_BOOST_UNIT )
-cet_test( geo_types_fhicl_test USE_BOOST_UNIT
+cet_test(readout_types_test USE_BOOST_UNIT
+  LIBRARIES PRIVATE larcoreobj::SimpleTypesAndConstants)
+
+cet_test(geo_types_fhicl_test USE_BOOST_UNIT
   LIBRARIES PRIVATE
-    fhiclcpp::fhiclcpp fhiclcpp::types
-    cetlib_except::cetlib_except
-  )
-cet_test( readout_types_fhicl_test USE_BOOST_UNIT
+  larcoreobj::geo_types_fhicl
+  fhiclcpp::types
+  fhiclcpp::fhiclcpp
+)
+cet_test(readout_types_fhicl_test USE_BOOST_UNIT
   LIBRARIES PRIVATE
-    fhiclcpp::fhiclcpp fhiclcpp::types
-    cetlib_except::cetlib_except
-  )
-cet_test( testPhysicalConstants )
+  larcoreobj::readout_types_fhicl
+  fhiclcpp::types
+  fhiclcpp::fhiclcpp
+)
+cet_test(testPhysicalConstants)

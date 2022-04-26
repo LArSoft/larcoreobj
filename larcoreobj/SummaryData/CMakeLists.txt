@@ -1,6 +1,6 @@
-cet_make_library( SOURCE GeometryConfigurationInfo.cxx  POTSummary.cxx  RunData.cxx )
+cet_make_library(SOURCE GeometryConfigurationInfo.cxx POTSummary.cxx RunData.cxx)
 
-build_dictionary(DICTIONARY_LIBRARIES larcoreobj_SummaryData canvas::canvas)
+build_dictionary(DICTIONARY_LIBRARIES larcoreobj::SummaryData canvas::canvas)
 
 add_subdirectory(SampledDicts)
 
