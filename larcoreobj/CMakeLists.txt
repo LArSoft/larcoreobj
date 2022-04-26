@@ -1,2 +1,4 @@
+cet_make_library(HEADERS_TARGET_ONLY)
+
 add_subdirectory(SummaryData)
 add_subdirectory(SimpleTypesAndConstants)
