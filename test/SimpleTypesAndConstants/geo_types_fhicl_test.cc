@@ -19,9 +19,10 @@
 
 
 // C/C++ standard libraries
-#include <iostream>
-#include <string>
 #include <array>
+#include <iostream>
+#include <stdexcept>
+#include <string>
 #include <type_traits> // std::is_same_v<>
 
 
