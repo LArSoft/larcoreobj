@@ -1,3 +1,2 @@
-
 include(CetTest)
 add_subdirectory(SimpleTypesAndConstants)
