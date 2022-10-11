@@ -15,12 +15,11 @@
 #define LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_VECTORS_H
 
 // ROOT libraries
-#include "Math/GenVector/CoordinateSystemTags.h"
 #include "Math/GenVector/Cartesian3D.h"
-#include "Math/GenVector/PositionVector3D.h"
+#include "Math/GenVector/CoordinateSystemTags.h"
 #include "Math/GenVector/DisplacementVector3D.h"
+#include "Math/GenVector/PositionVector3D.h"
 #include "Math/GenVector/Rotation3D.h"
-
 
 // BEGIN -- GENVECTOR_CONSTEXPR issue ------------------------------------------
 /**
@@ -48,7 +47,6 @@
 // # define GENVECTOR_CONSTEXPR constexpr
 // END -- GENVECTOR_CONSTEXPR issue --------------------------------------------
 
-
 // BEGIN Geometry group --------------------------------------------------------
 /// @ingroup Geometry
 /// @{
@@ -71,15 +69,13 @@ namespace geo {
   /// @tparam T data type for coordinate representation
   /// @tparam C coordinate system tag (default: global coordinates)
   template <typename T, typename C = ROOT::Math::GlobalCoordinateSystemTag>
-  using GenVector3DBase_t
-    = ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<T>, C>;
+  using GenVector3DBase_t = ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<T>, C>;
 
   /// Type of 3D point.
   /// @tparam T data type for coordinate representation
   /// @tparam C coordinate system tag (default: global coordinates)
   template <typename T, typename C = ROOT::Math::GlobalCoordinateSystemTag>
-  using GenPoint3DBase_t
-    = ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<T>, C>;
+  using GenPoint3DBase_t = ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<T>, C>;
 
   /// Type of 3D displacement vector with representation in double precision.
   /// @tparam C coordinate system tag
@@ -159,9 +155,9 @@ namespace geo {
    *
    */
   // the actual definition commented out is not understood by GenReflex
-//  using Vector_t = Vector3DBase_t<GlobalCoords>;
-  using Vector_t = ROOT::Math::DisplacementVector3D
-    <ROOT::Math::Cartesian3D<double>, ROOT::Math::GlobalCoordinateSystemTag>;
+  //  using Vector_t = Vector3DBase_t<GlobalCoords>;
+  using Vector_t = ROOT::Math::DisplacementVector3D<ROOT::Math::Cartesian3D<double>,
+                                                    ROOT::Math::GlobalCoordinateSystemTag>;
 
   /**
    * @brief Type for representation of position in physical 3D space.
@@ -179,10 +175,9 @@ namespace geo {
    *
    */
   // the actual definition commented out is not understood by GenReflex
-//  using Point_t = Point3DBase_t<GlobalCoords>;
-   using Point_t = ROOT::Math::PositionVector3D
-     <ROOT::Math::Cartesian3D<double>, ROOT::Math::GlobalCoordinateSystemTag>;
-
+  //  using Point_t = Point3DBase_t<GlobalCoords>;
+  using Point_t = ROOT::Math::PositionVector3D<ROOT::Math::Cartesian3D<double>,
+                                               ROOT::Math::GlobalCoordinateSystemTag>;
 
   /**
    * @brief Type for representation of momenta in 3D space.
@@ -204,36 +199,44 @@ namespace geo {
   template <typename CoordSystemTag>
   using PointIn_t = Point3DBase_t<CoordSystemTag>;
 
-
   /// Type for representation of space rotations.
   using Rotation_t = ROOT::Math::Rotation3D;
-
 
   //--------------------------------------------------------------------------
   /// Returns a x axis vector of the specified type.
   template <typename Vector = Vector_t>
-  constexpr Vector Xaxis() { return { 1.0, 0.0, 0.0 }; }
+  constexpr Vector Xaxis()
+  {
+    return {1.0, 0.0, 0.0};
+  }
 
   /// Returns a y axis vector of the specified type.
   template <typename Vector = Vector_t>
-  constexpr Vector Yaxis() { return { 0.0, 1.0, 0.0 }; }
+  constexpr Vector Yaxis()
+  {
+    return {0.0, 1.0, 0.0};
+  }
 
   /// Returns a z axis vector of the specified type.
   template <typename Vector = Vector_t>
-  constexpr Vector Zaxis() { return { 0.0, 0.0, 1.0 }; }
+  constexpr Vector Zaxis()
+  {
+    return {0.0, 0.0, 1.0};
+  }
 
   /// Returns a origin position with a point of the specified type.
   template <typename Point = Point_t>
-  constexpr Point origin() { return { 0.0, 0.0, 0.0 }; }
+  constexpr Point origin()
+  {
+    return {0.0, 0.0, 0.0};
+  }
 
   /// @}
-
 
   //----------------------------------------------------------------------------
 
 } // namespace geo
 /// @}
 // END Geometry group ----------------------------------------------------------
-
 
 #endif // LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_VECTORS_H

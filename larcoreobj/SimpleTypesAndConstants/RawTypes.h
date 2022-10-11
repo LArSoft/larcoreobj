@@ -3,15 +3,15 @@
 
 #include <limits> // std::numeric_limits<>
 
-namespace raw{
+namespace raw {
 
   typedef enum _compress {
-    kNone,       ///< no compression
-    kHuffman,    ///< Huffman Encoding
-    kZeroSuppression,  ///< Zero Suppression algorithm
-    kZeroHuffman,  ///< Zero Suppression followed by Huffman Encoding
-    kDynamicDec,  ///< Dynamic decimation
-    kFibonacci  ///< Fibonacci encoding
+    kNone,            ///< no compression
+    kHuffman,         ///< Huffman Encoding
+    kZeroSuppression, ///< Zero Suppression algorithm
+    kZeroHuffman,     ///< Zero Suppression followed by Huffman Encoding
+    kDynamicDec,      ///< Dynamic decimation
+    kFibonacci        ///< Fibonacci encoding
   } Compress_t;
 
   typedef enum _auxdettype {
@@ -28,14 +28,14 @@ namespace raw{
   typedef unsigned int ChannelID_t;
 
   /// ID of an invalid channel
-  constexpr ChannelID_t InvalidChannelID
-    = std::numeric_limits<ChannelID_t>::max();
-
+  constexpr ChannelID_t InvalidChannelID = std::numeric_limits<ChannelID_t>::max();
 
   /// Returns whether the specified channel ID is valid
   /// @note This does not mean that channel exists in the current geometry.
   inline constexpr bool isValidChannelID(raw::ChannelID_t channel)
-    { return channel != InvalidChannelID; }
+  {
+    return channel != InvalidChannelID;
+  }
 
 } // namespace raw
 

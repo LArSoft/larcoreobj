@@ -14,20 +14,16 @@
 // C++ standard libraries
 #include <stdexcept> // std::logic_error
 
-
 // -----------------------------------------------------------------------------
-std::string geo::SignalTypeName(geo::SigType_t sigType) {
+std::string geo::SignalTypeName(geo::SigType_t sigType)
+{
   switch (sigType) {
-    case geo::kInduction:   return "induction";
-    case geo::kCollection:  return "collection";
-    case geo::kMysteryType: return "unknown";
+  case geo::kInduction: return "induction";
+  case geo::kCollection: return "collection";
+  case geo::kMysteryType: return "unknown";
   } // switch
-  throw std::logic_error(
-    "geo::SignalTypeName(): unexpected signal type #"
-    + std::to_string(static_cast<int>(sigType))
-    );
+  throw std::logic_error("geo::SignalTypeName(): unexpected signal type #" +
+                         std::to_string(static_cast<int>(sigType)));
 } // geo::SignalTypeName()
 
-
 // -----------------------------------------------------------------------------
-

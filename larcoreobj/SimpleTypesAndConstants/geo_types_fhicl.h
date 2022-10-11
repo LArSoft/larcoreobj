@@ -10,23 +10,21 @@
 #ifndef LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_TYPES_FHICL_H
 #define LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_TYPES_FHICL_H
 
-
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 
 // support libraries
-#include "fhiclcpp/types/OptionalTable.h"
-#include "fhiclcpp/types/Table.h"
-#include "fhiclcpp/types/OptionalSequence.h"
-#include "fhiclcpp/types/Sequence.h"
-#include "fhiclcpp/types/OptionalAtom.h"
 #include "fhiclcpp/types/Atom.h"
+#include "fhiclcpp/types/OptionalAtom.h"
+#include "fhiclcpp/types/OptionalSequence.h"
+#include "fhiclcpp/types/OptionalTable.h"
+#include "fhiclcpp/types/Sequence.h"
+#include "fhiclcpp/types/Table.h"
 
 // C/C++ standard libraries
-#include <vector>
-#include <optional>
 #include <cstddef> // std::size_t
-
+#include <optional>
+#include <vector>
 
 /// FHiCL objects representing geometry classes as configuration parameters.
 namespace geo::fhicl {
@@ -219,21 +217,17 @@ namespace geo::fhicl {
   using IDof = typename IDparameterTraits<IDparam>::ID_t;
   //@}
 
-
   // --- BEGIN -- Generic ID infrastructure ------------------------------------
   /// Helper class holding the ID validity flag.
   struct ValidIDConfig {
 
-    ::fhicl::Atom<bool> isValid {
-      ::fhicl::Name("isValid"),
-      ::fhicl::Comment("whether the ID is valid"),
-      true
-      };
+    ::fhicl::Atom<bool> isValid{::fhicl::Name("isValid"),
+                                ::fhicl::Comment("whether the ID is valid"),
+                                true};
 
     bool valid() const { return isValid(); }
 
   }; // struct ValidIDConfig
-
 
   /// Type of ID configuration structure (requires specialization)
   template <typename IDtype>
@@ -257,20 +251,17 @@ namespace geo::fhicl {
 
   // --- END -- Generic ID infrastructure --------------------------------------
 
-
   // --- BEGIN -- Cryostat ID --------------------------------------------------
   /// Configuration structure for validated `geo::CryostatID` parameter.
   template <>
-  struct IDConfig<geo::CryostatID>: public ValidIDConfig {
+  struct IDConfig<geo::CryostatID> : public ValidIDConfig {
     using ID_t = geo::CryostatID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<geo::CryostatID::CryostatID_t> C {
-      ::fhicl::Name("C"),
-      ::fhicl::Comment("cryostat number"),
-      [this](){ return valid(); }
-      };
+    ::fhicl::Atom<geo::CryostatID::CryostatID_t> C{::fhicl::Name("C"),
+                                                   ::fhicl::Comment("cryostat number"),
+                                                   [this]() { return valid(); }};
 
-    ID_t ID() const { return !valid()? ID_t{}: ID_t{ C() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{C()}; }
     operator ID_t() const { return ID(); }
 
   }; // struct IDConfig<geo::CryostatID>
@@ -289,21 +280,17 @@ namespace geo::fhicl {
 
   // --- END -- Cryostat ID ----------------------------------------------------
 
-
   // --- BEGIN -- TPC ID -------------------------------------------------------
   /// Configuration structure for validated `geo::TPCID` parameter.
   template <>
-  struct IDConfig<geo::TPCID>: public IDConfig<geo::CryostatID> {
+  struct IDConfig<geo::TPCID> : public IDConfig<geo::CryostatID> {
     using ID_t = geo::TPCID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<geo::TPCID::TPCID_t> T {
-      ::fhicl::Name("T"),
-      ::fhicl::Comment("TPC number within the cryostat"),
-      [this](){ return valid(); }
-      };
+    ::fhicl::Atom<geo::TPCID::TPCID_t> T{::fhicl::Name("T"),
+                                         ::fhicl::Comment("TPC number within the cryostat"),
+                                         [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<geo::CryostatID>::ID(), T() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<geo::CryostatID>::ID(), T()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<geo::TPCID>
 
@@ -321,21 +308,18 @@ namespace geo::fhicl {
 
   // --- END -- TPC ID ---------------------------------------------------------
 
-
   // --- BEGIN -- Optical detector ID ------------------------------------------
   /// Configuration structure for validated `geo::OpDetID` parameter.
   template <>
-  struct IDConfig<geo::OpDetID>: public IDConfig<geo::CryostatID> {
+  struct IDConfig<geo::OpDetID> : public IDConfig<geo::CryostatID> {
     using ID_t = geo::OpDetID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<geo::OpDetID::OpDetID_t> O {
+    ::fhicl::Atom<geo::OpDetID::OpDetID_t> O{
       ::fhicl::Name("O"),
       ::fhicl::Comment("Optical detector number within the cryostat"),
-      [this](){ return valid(); }
-      };
+      [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<geo::CryostatID>::ID(), O() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<geo::CryostatID>::ID(), O()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<geo::OpDetID>
 
@@ -353,21 +337,17 @@ namespace geo::fhicl {
 
   // --- END -- Optical detector ID --------------------------------------------
 
-
   // --- BEGIN -- Plane ID -----------------------------------------------------
   /// Configuration structure for validated `geo::PlaneID` parameter.
   template <>
-  struct IDConfig<geo::PlaneID>: public IDConfig<geo::TPCID> {
+  struct IDConfig<geo::PlaneID> : public IDConfig<geo::TPCID> {
     using ID_t = geo::PlaneID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<geo::PlaneID::PlaneID_t> P {
-      ::fhicl::Name("P"),
-      ::fhicl::Comment("Plane number within the TPC"),
-      [this](){ return valid(); }
-      };
+    ::fhicl::Atom<geo::PlaneID::PlaneID_t> P{::fhicl::Name("P"),
+                                             ::fhicl::Comment("Plane number within the TPC"),
+                                             [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<geo::TPCID>::ID(), P() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<geo::TPCID>::ID(), P()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<geo::PlaneID>
 
@@ -385,21 +365,17 @@ namespace geo::fhicl {
 
   // --- END -- Plane ID -------------------------------------------------------
 
-
   // --- BEGIN -- Wire ID ------------------------------------------------------
   /// Configuration structure for validated `geo::PlaneID` parameter.
   template <>
-  struct IDConfig<geo::WireID>: public IDConfig<geo::PlaneID> {
+  struct IDConfig<geo::WireID> : public IDConfig<geo::PlaneID> {
     using ID_t = geo::WireID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<geo::WireID::WireID_t> W {
-      ::fhicl::Name("W"),
-      ::fhicl::Comment("Wire number within the plane"),
-      [this](){ return valid(); }
-      };
+    ::fhicl::Atom<geo::WireID::WireID_t> W{::fhicl::Name("W"),
+                                           ::fhicl::Comment("Wire number within the plane"),
+                                           [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<geo::PlaneID>::ID(), W() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<geo::PlaneID>::ID(), W()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<geo::WireID>
 
@@ -416,7 +392,6 @@ namespace geo::fhicl {
   using OptionalWireIDsequence = OptionalIDsequence<geo::WireID>;
 
   // --- END -- Wire ID --------------------------------------------------------
-
 
   // --- BEGIN -- ID parsing ---------------------------------------------------
 
@@ -471,9 +446,10 @@ namespace geo::fhicl {
 
   template <typename SrcID, typename ID = SrcID>
   ID readParameter(IDparameter<SrcID> const& atom)
-    { return readID<SrcID, ID>(atom); }
+  {
+    return readID<SrcID, ID>(atom);
+  }
   //@}
-
 
   //@{
   /**
@@ -517,9 +493,10 @@ namespace geo::fhicl {
 
   template <typename SrcID, typename ID = SrcID>
   std::optional<ID> readParameter(OptionalID<SrcID> const& atom)
-    { return readOptionalID<SrcID, ID>(atom); }
+  {
+    return readOptionalID<SrcID, ID>(atom);
+  }
   //@}
-
 
   //@{
   /**
@@ -567,13 +544,16 @@ namespace geo::fhicl {
 
   template <typename SrcID, typename ID = SrcID>
   ID readParameter(OptionalID<SrcID> const& atom, ID const& defValue)
-    { return readOptionalID<SrcID, ID>(atom, defValue); }
+  {
+    return readOptionalID<SrcID, ID>(atom, defValue);
+  }
 
   template <typename SrcID, typename ID = SrcID>
   ID readParameter(OptionalID<SrcID> const& atom, ID&& defValue)
-    { return readOptionalID<SrcID, ID>(atom, std::move(defValue)); }
+  {
+    return readOptionalID<SrcID, ID>(atom, std::move(defValue));
+  }
   //@}
-
 
   //@{
   /**
@@ -615,7 +595,9 @@ namespace geo::fhicl {
 
   template <typename SrcID, typename ID = SrcID>
   std::vector<ID> readParameter(IDsequence<SrcID> const& seq)
-    { return readIDsequence<SrcID, ID>(seq); }
+  {
+    return readIDsequence<SrcID, ID>(seq);
+  }
   //@}
 
   //@{
@@ -673,13 +655,13 @@ namespace geo::fhicl {
    *       and it's not enforced to be a ID type at all.
    */
   template <typename SrcID, typename ID = SrcID>
-  std::optional<std::vector<ID>> readOptionalIDsequence
-    (OptionalIDsequence<SrcID> const& seq);
+  std::optional<std::vector<ID>> readOptionalIDsequence(OptionalIDsequence<SrcID> const& seq);
 
   template <typename SrcID, typename ID = SrcID>
-  std::optional<std::vector<ID>> readParameter
-    (OptionalIDsequence<SrcID> const& seq)
-    { return readOptionalIDsequence<SrcID, ID>(seq); }
+  std::optional<std::vector<ID>> readParameter(OptionalIDsequence<SrcID> const& seq)
+  {
+    return readOptionalIDsequence<SrcID, ID>(seq);
+  }
   //@}
 
   //@{
@@ -699,33 +681,34 @@ namespace geo::fhicl {
    * is moved into the returned value.
    */
   template <typename SrcID, typename ID = SrcID>
-  std::vector<ID> readOptionalIDsequence
-    (OptionalIDsequence<SrcID> const& seq, std::vector<ID> const& defValue);
+  std::vector<ID> readOptionalIDsequence(OptionalIDsequence<SrcID> const& seq,
+                                         std::vector<ID> const& defValue);
 
   template <typename SrcID, typename ID = SrcID>
-  std::vector<ID> readOptionalIDsequence
-    (OptionalIDsequence<SrcID> const& seq, std::vector<ID>&& defValue);
+  std::vector<ID> readOptionalIDsequence(OptionalIDsequence<SrcID> const& seq,
+                                         std::vector<ID>&& defValue);
 
   template <typename SrcID, typename ID = SrcID>
-  std::vector<ID> readParameter
-    (OptionalIDsequence<SrcID> const& seq, std::vector<ID> const& defValue)
-    { return readOptionalIDsequence<SrcID, ID>(seq, defValue); }
+  std::vector<ID> readParameter(OptionalIDsequence<SrcID> const& seq,
+                                std::vector<ID> const& defValue)
+  {
+    return readOptionalIDsequence<SrcID, ID>(seq, defValue);
+  }
 
   template <typename SrcID, typename ID = SrcID>
-  std::vector<ID> readParameter
-    (OptionalIDsequence<SrcID> const& seq, std::vector<ID>&& defValue)
-    { return readOptionalIDsequence<SrcID, ID>(seq, std::move(defValue)); }
+  std::vector<ID> readParameter(OptionalIDsequence<SrcID> const& seq, std::vector<ID>&& defValue)
+  {
+    return readOptionalIDsequence<SrcID, ID>(seq, std::move(defValue));
+  }
 
   //@}
 
   // --- END -- ID parsing -----------------------------------------------------
 
-
   /// @}
   // --- END -- Validated configuration parameters for geometry ID objects -----
 
 } // namespace geo::fhicl
-
 
 // -----------------------------------------------------------------------------
 // ---  template implementation
@@ -735,7 +718,7 @@ namespace geo::fhicl {
 template <typename ID>
 struct geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>> {
 
-  using type = IDparameter<ID>;     ///< Type of parameter.
+  using type = IDparameter<ID>; ///< Type of parameter.
 
   using ID_t = typename type::ID_t; ///< Type of ID read.
 
@@ -747,67 +730,63 @@ struct geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>> {
 
 }; // geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>>
 
-
 template <typename ID>
 struct geo::fhicl::IDparameterTraits<geo::fhicl::OptionalID<ID>>
-  : geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>>
-{
+  : geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>> {
   // override:
   static constexpr bool isOptional = true; ///< Whether it is optional.
 }; // geo::fhicl::IDparameterTraits<geo::fhicl::OptionalID<ID>>
 
-
 template <typename ID>
 struct geo::fhicl::IDparameterTraits<geo::fhicl::IDsequence<ID>>
-  : geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>>
-{
+  : geo::fhicl::IDparameterTraits<geo::fhicl::IDparameter<ID>> {
   // override:
-  static constexpr bool isAtom = false; ///< Whether it is a single value.
+  static constexpr bool isAtom = false;    ///< Whether it is a single value.
   static constexpr bool isSequence = true; ///< Whether it is a sequence.
 }; // geo::fhicl::IDparameterTraits<geo::fhicl::IDsequence<ID>>
 
-
 template <typename ID>
 struct geo::fhicl::IDparameterTraits<geo::fhicl::OptionalIDsequence<ID>>
-  : geo::fhicl::IDparameterTraits<geo::fhicl::IDsequence<ID>>
-{
+  : geo::fhicl::IDparameterTraits<geo::fhicl::IDsequence<ID>> {
   // override:
   static constexpr bool isOptional = true; ///< Whether it is optional.
 }; // geo::fhicl::IDparameterTraits<geo::fhicl::OptionalIDsequence<ID>>
 
-
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-ID geo::fhicl::readID(IDparameter<SrcID> const& atom) {
+ID geo::fhicl::readID(IDparameter<SrcID> const& atom)
+{
   return atom(); // conversions happen as needed (if possible)
 } // geo::fhicl::readID()
 
-
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-std::optional<ID> geo::fhicl::readOptionalID(OptionalID<SrcID> const& atom) {
+std::optional<ID> geo::fhicl::readOptionalID(OptionalID<SrcID> const& atom)
+{
   using ID_t = ID;
 
   typename OptionalID<SrcID>::value_type cs;
-  return atom(cs)? std::make_optional<ID_t>(cs.ID()): std::nullopt;
+  return atom(cs) ? std::make_optional<ID_t>(cs.ID()) : std::nullopt;
 } // geo::fhicl::readOptionalID()
-
 
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
 ID geo::fhicl::readOptionalID(OptionalID<SrcID> const& atom, ID const& defValue)
-  { return readOptionalID(atom).value_or(defValue); }
-
+{
+  return readOptionalID(atom).value_or(defValue);
+}
 
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
 ID geo::fhicl::readOptionalID(OptionalID<SrcID> const& atom, ID&& defValue)
-  { return readOptionalID(atom).value_or(std::move(defValue)); }
-
+{
+  return readOptionalID(atom).value_or(std::move(defValue));
+}
 
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-std::vector<ID> geo::fhicl::readIDsequence(IDsequence<SrcID> const& seq) {
+std::vector<ID> geo::fhicl::readIDsequence(IDsequence<SrcID> const& seq)
+{
   using ID_t = ID;
 
   std::vector<ID_t> IDs;
@@ -818,11 +797,10 @@ std::vector<ID> geo::fhicl::readIDsequence(IDsequence<SrcID> const& seq) {
   return IDs;
 } // geo::fhicl::readIDsequence()
 
-
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-std::optional<std::vector<ID>> geo::fhicl::readOptionalIDsequence
-  (OptionalIDsequence<SrcID> const& seq)
+std::optional<std::vector<ID>> geo::fhicl::readOptionalIDsequence(
+  OptionalIDsequence<SrcID> const& seq)
 {
   using values_t = std::vector<ID>;
 
@@ -832,33 +810,28 @@ std::optional<std::vector<ID>> geo::fhicl::readOptionalIDsequence
   values_t IDs;
   IDs.reserve(values.size());
   std::copy(values.begin(), values.end(), std::back_inserter(IDs));
-  return { std::move(IDs) };
+  return {std::move(IDs)};
 
 } // geo::fhicl::readOptionalIDsequence()
 
-
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-std::vector<ID> geo::fhicl::readOptionalIDsequence
-  (OptionalIDsequence<SrcID> const& seq, std::vector<ID> const& defValue)
+std::vector<ID> geo::fhicl::readOptionalIDsequence(OptionalIDsequence<SrcID> const& seq,
+                                                   std::vector<ID> const& defValue)
 {
   // making sure `paramValue` is not a r-value; not sure whether it is necessary
   auto paramValue = readOptionalIDsequence(seq);
   return paramValue.value_or(defValue);
 } // geo::fhicl::readOptionalIDsequence(std::vector const&)
 
-
 // -----------------------------------------------------------------------------
 template <typename SrcID, typename ID /* = SrcID */>
-std::vector<ID> geo::fhicl::readOptionalIDsequence
-  (OptionalIDsequence<SrcID> const& seq, std::vector<ID>&& defValue)
+std::vector<ID> geo::fhicl::readOptionalIDsequence(OptionalIDsequence<SrcID> const& seq,
+                                                   std::vector<ID>&& defValue)
 {
   return readOptionalIDsequence(seq).value_or(std::move(defValue));
 } // geo::fhicl::readOptionalIDsequence(std::vector const&)
 
-
 // -----------------------------------------------------------------------------
 
-
 #endif // LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_TYPES_FHICL_H
-

@@ -8,7 +8,7 @@
 // Define the following non-zero to exclude include code that is required
 // not to be compilable
 #ifndef GEO_TYPES_TEST_SKIP_COMPILATION_ERRORS
-#  define GEO_TYPES_TEST_SKIP_COMPILATION_ERRORS 1
+#define GEO_TYPES_TEST_SKIP_COMPILATION_ERRORS 1
 #endif // !GEO_TYPES_TEST_SKIP_COMPILATION_ERRORS
 
 // Boost libraries
@@ -21,7 +21,7 @@
  * This also makes fairly complicate to receive parameters from the command line
  * (for example, a random seed).
  */
-#define BOOST_TEST_MODULE ( geo_types_test )
+#define BOOST_TEST_MODULE (geo_types_test)
 #include "boost/test/unit_test.hpp"
 
 // LArSoft libraries
@@ -32,11 +32,16 @@
 
 //------------------------------------------------------------------------------
 template <typename T>
-auto makeConst(T& var) -> decltype(auto) { return const_cast<T const&>(var); }
+auto makeConst(T& var) -> decltype(auto)
+{
+  return const_cast<T const&>(var);
+}
 
 template <typename ID>
 constexpr bool assertGeoIDlevel()
-  { return geo::details::geoElementLevel<ID>() == ID::Level; }
+{
+  return geo::details::geoElementLevel<ID>() == ID::Level;
+}
 
 //------------------------------------------------------------------------------
 // compile-time tests:
@@ -47,7 +52,7 @@ static_assert(assertGeoIDlevel<geo::OpDetID>());
 static_assert(assertGeoIDlevel<geo::TPCID>());
 static_assert(assertGeoIDlevel<geo::PlaneID>());
 static_assert(assertGeoIDlevel<geo::WireID>());
-static_assert( geo::details::isTopGeoElementID<geo::CryostatID>);
+static_assert(geo::details::isTopGeoElementID<geo::CryostatID>);
 static_assert(!geo::details::isTopGeoElementID<geo::OpDetID>);
 static_assert(!geo::details::isTopGeoElementID<geo::TPCID>);
 static_assert(!geo::details::isTopGeoElementID<geo::PlaneID>);
@@ -78,59 +83,48 @@ static_assert(std::is_same_v<geo::WireID::UpperID_t<1U>, geo::PlaneID>);
 static_assert(std::is_same_v<geo::WireID::UpperID_t<2U>, geo::TPCID>);
 static_assert(std::is_same_v<geo::WireID::UpperID_t<3U>, geo::CryostatID>);
 
-static_assert(geo::CryostatID{0}  .getIndex   <0U>() == 0);
-static_assert(geo::CryostatID{0}  .getRelIndex<0U>() == 0);
-static_assert(geo::OpDetID{0,1}   .getIndex   <0U>() == 0);
-static_assert(geo::OpDetID{0,1}   .getIndex   <1U>() == 1);
-static_assert(geo::OpDetID{0,1}   .getRelIndex<0U>() == 1);
-static_assert(geo::OpDetID{0,1}   .getRelIndex<1U>() == 0);
-static_assert(geo::TPCID{0,1}     .getIndex   <0U>() == 0);
-static_assert(geo::TPCID{0,1}     .getIndex   <1U>() == 1);
-static_assert(geo::TPCID{0,1}     .getRelIndex<0U>() == 1);
-static_assert(geo::TPCID{0,1}     .getRelIndex<1U>() == 0);
-static_assert(geo::PlaneID{0,1,2} .getIndex   <0U>() == 0);
-static_assert(geo::PlaneID{0,1,2} .getIndex   <1U>() == 1);
-static_assert(geo::PlaneID{0,1,2} .getIndex   <2U>() == 2);
-static_assert(geo::PlaneID{0,1,2} .getRelIndex<0U>() == 2);
-static_assert(geo::PlaneID{0,1,2} .getRelIndex<1U>() == 1);
-static_assert(geo::PlaneID{0,1,2} .getRelIndex<2U>() == 0);
-static_assert(geo::WireID{0,1,2,3}.getIndex   <0U>() == 0);
-static_assert(geo::WireID{0,1,2,3}.getIndex   <1U>() == 1);
-static_assert(geo::WireID{0,1,2,3}.getIndex   <2U>() == 2);
-static_assert(geo::WireID{0,1,2,3}.getIndex   <3U>() == 3);
-static_assert(geo::WireID{0,1,2,3}.getRelIndex<0U>() == 3);
-static_assert(geo::WireID{0,1,2,3}.getRelIndex<1U>() == 2);
-static_assert(geo::WireID{0,1,2,3}.getRelIndex<2U>() == 1);
-static_assert(geo::WireID{0,1,2,3}.getRelIndex<3U>() == 0);
+static_assert(geo::CryostatID{0}.getIndex<0U>() == 0);
+static_assert(geo::CryostatID{0}.getRelIndex<0U>() == 0);
+static_assert(geo::OpDetID{0, 1}.getIndex<0U>() == 0);
+static_assert(geo::OpDetID{0, 1}.getIndex<1U>() == 1);
+static_assert(geo::OpDetID{0, 1}.getRelIndex<0U>() == 1);
+static_assert(geo::OpDetID{0, 1}.getRelIndex<1U>() == 0);
+static_assert(geo::TPCID{0, 1}.getIndex<0U>() == 0);
+static_assert(geo::TPCID{0, 1}.getIndex<1U>() == 1);
+static_assert(geo::TPCID{0, 1}.getRelIndex<0U>() == 1);
+static_assert(geo::TPCID{0, 1}.getRelIndex<1U>() == 0);
+static_assert(geo::PlaneID{0, 1, 2}.getIndex<0U>() == 0);
+static_assert(geo::PlaneID{0, 1, 2}.getIndex<1U>() == 1);
+static_assert(geo::PlaneID{0, 1, 2}.getIndex<2U>() == 2);
+static_assert(geo::PlaneID{0, 1, 2}.getRelIndex<0U>() == 2);
+static_assert(geo::PlaneID{0, 1, 2}.getRelIndex<1U>() == 1);
+static_assert(geo::PlaneID{0, 1, 2}.getRelIndex<2U>() == 0);
+static_assert(geo::WireID{0, 1, 2, 3}.getIndex<0U>() == 0);
+static_assert(geo::WireID{0, 1, 2, 3}.getIndex<1U>() == 1);
+static_assert(geo::WireID{0, 1, 2, 3}.getIndex<2U>() == 2);
+static_assert(geo::WireID{0, 1, 2, 3}.getIndex<3U>() == 3);
+static_assert(geo::WireID{0, 1, 2, 3}.getRelIndex<0U>() == 3);
+static_assert(geo::WireID{0, 1, 2, 3}.getRelIndex<1U>() == 2);
+static_assert(geo::WireID{0, 1, 2, 3}.getRelIndex<2U>() == 1);
+static_assert(geo::WireID{0, 1, 2, 3}.getRelIndex<3U>() == 0);
 
 // IDs must not be convertible to integers
-static_assert(
-  !std::is_convertible<geo::CryostatID, geo::CryostatID::CryostatID_t>::value,
-  "geo::CryostatID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<geo::OpDetID, geo::CryostatID::CryostatID_t>::value,
-  "geo::OpDetID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<geo::TPCID, geo::CryostatID::CryostatID_t>::value,
-  "geo::TPCID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<geo::PlaneID, geo::CryostatID::CryostatID_t>::value,
-  "geo::PlaneID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<geo::WireID, geo::CryostatID::CryostatID_t>::value,
-  "geo::WireID can be implicitly converted to an integral type"
-  );
-
-
+static_assert(!std::is_convertible<geo::CryostatID, geo::CryostatID::CryostatID_t>::value,
+              "geo::CryostatID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<geo::OpDetID, geo::CryostatID::CryostatID_t>::value,
+              "geo::OpDetID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<geo::TPCID, geo::CryostatID::CryostatID_t>::value,
+              "geo::TPCID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<geo::PlaneID, geo::CryostatID::CryostatID_t>::value,
+              "geo::PlaneID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<geo::WireID, geo::CryostatID::CryostatID_t>::value,
+              "geo::WireID can be implicitly converted to an integral type");
 
 //------------------------------------------------------------------------------
 // run-time tests:
 //
-void TestIDvalidity(geo::CryostatID const& id, bool answer) {
+void TestIDvalidity(geo::CryostatID const& id, bool answer)
+{
   // - check isValid
   BOOST_TEST(id.isValid == answer);
   // - check operator!
@@ -139,7 +133,8 @@ void TestIDvalidity(geo::CryostatID const& id, bool answer) {
   BOOST_TEST((bool)id == answer);
 } // TestIDvalidity()
 
-void TestSetIDvalidity(geo::CryostatID& id) {
+void TestSetIDvalidity(geo::CryostatID& id)
+{
 
   bool const orig = bool(id);
 
@@ -158,22 +153,24 @@ void TestSetIDvalidity(geo::CryostatID& id) {
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareSmallerID(TESTID const& id, REFID  const& smaller) {
-  BOOST_TEST(!(id      <  smaller) );
-  BOOST_TEST(!(id      == smaller) );
-  BOOST_TEST(  id      != smaller  );
-  BOOST_TEST(  smaller <       id  );
+void TestCompareSmallerID(TESTID const& id, REFID const& smaller)
+{
+  BOOST_TEST(!(id < smaller));
+  BOOST_TEST(!(id == smaller));
+  BOOST_TEST(id != smaller);
+  BOOST_TEST(smaller < id);
   BOOST_TEST(smaller.cmp(id) < 0);
   BOOST_TEST(id.cmp(smaller) > 0);
 } // TestCompareSmallerID()
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareSameID(TESTID const& id, REFID  const& same) {
-  BOOST_TEST(!(id      <  same) );
-  BOOST_TEST(  id      == same  );
-  BOOST_TEST(!(id      != same) );
-  BOOST_TEST(!(same <     id) );
+void TestCompareSameID(TESTID const& id, REFID const& same)
+{
+  BOOST_TEST(!(id < same));
+  BOOST_TEST(id == same);
+  BOOST_TEST(!(id != same));
+  BOOST_TEST(!(same < id));
   BOOST_TEST(same.cmp(id) == 0);
   BOOST_TEST(id.cmp(same) == 0);
 } // TestCompareSameID()
@@ -181,37 +178,38 @@ void TestCompareSameID(TESTID const& id, REFID  const& same) {
 /// Test comparison operators
 template <typename TESTID>
 void TestCompareSelfID(TESTID const& id)
-  { return TestCompareSameID(id, id); }
+{
+  return TestCompareSameID(id, id);
+}
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareLargerID(TESTID const& id, REFID  const& larger) {
-  BOOST_TEST(  id     <  larger  );
-  BOOST_TEST(  id     != larger  );
-  BOOST_TEST(!(id     == larger) );
-  BOOST_TEST(!(larger <      id) );
+void TestCompareLargerID(TESTID const& id, REFID const& larger)
+{
+  BOOST_TEST(id < larger);
+  BOOST_TEST(id != larger);
+  BOOST_TEST(!(id == larger));
+  BOOST_TEST(!(larger < id));
   BOOST_TEST(larger.cmp(id) > 0);
   BOOST_TEST(id.cmp(larger) < 0);
 } // TestCompareLargerID()
 
-
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestIDcomparison(
-  TESTID const& id,
-  REFID  const& smaller,
-  REFID  const& same,
-  REFID  const& larger
-) {
+void TestIDcomparison(TESTID const& id,
+                      REFID const& smaller,
+                      REFID const& same,
+                      REFID const& larger)
+{
   TestCompareSmallerID(id, smaller);
   TestCompareSameID(id, same);
   TestCompareSelfID(id);
   TestCompareLargerID(id, larger);
 } // TestCryostatComparison()
 
-
 // --- BEGIN CryostatID tests --------------------------------------------------
-void test_CryostatID_defaultConstructor() {
+void test_CryostatID_defaultConstructor()
+{
 
   BOOST_TEST_MESSAGE("Testing default-constructed cryostat ID");
 
@@ -221,7 +219,7 @@ void test_CryostatID_defaultConstructor() {
   TestIDvalidity(cid, false);
   TestSetIDvalidity(cid);
 
-/* // feature not added
+  /* // feature not added
   // test assignment from ID_t
   cid = 1;
   BOOST_TEST(cid.Cryostat == 1);
@@ -232,8 +230,8 @@ void test_CryostatID_defaultConstructor() {
 
 } // test_CryostatID_defaultConstructor()
 
-
-void test_CryostatID_directConstructor() {
+void test_CryostatID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing cryostat ID constructed with an integer");
 
@@ -256,7 +254,6 @@ void test_CryostatID_directConstructor() {
   BOOST_TEST(cid.getIndex<0U>() == 1);
   cid.writeIndex<0U>() = 2;
   BOOST_TEST(cid.getIndex<0U>() == 2);
-  
 
   // make sure the ID with cryostat 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing cryostat ID constructed with an integer 0");
@@ -270,13 +267,11 @@ void test_CryostatID_directConstructor() {
 
 } // test_CryostatID_directConstructor()
 
-
 // --- END CryostatID tests ----------------------------------------------------
 
-
-
 // --- BEGIN OpDetID tests -----------------------------------------------------
-void test_OpDetID_defaultConstructor() {
+void test_OpDetID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed optical detector ID");
 
@@ -291,8 +286,8 @@ void test_OpDetID_defaultConstructor() {
 
 } // test_OpDetID_defaultConstructor()
 
-
-void test_OpDetID_integralConstructor() {
+void test_OpDetID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed optical detector ID");
 
@@ -311,8 +306,8 @@ void test_OpDetID_integralConstructor() {
 
 } // test_OpDetID_integralConstructor()
 
-
-void test_OpDetID_nestedConstructor() {
+void test_OpDetID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed optical detector ID");
 
@@ -324,21 +319,20 @@ void test_OpDetID_nestedConstructor() {
   TestSetIDvalidity(oid);
 
   // check the ID value
-  BOOST_TEST(oid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(oid.OpDet ==          geo::OpDetID::OpDetID_t(15));
+  BOOST_TEST(oid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(oid.OpDet == geo::OpDetID::OpDetID_t(15));
 
   // test comparison operators (exercise copy constructor too)
   // - with optical detector ID
   BOOST_TEST_CHECKPOINT("Testing comparison with optical detector ID");
-  geo::OpDetID smaller_oid(cid, oid.OpDet - 1), same_oid(oid),
-    larger_oid(cid, oid.OpDet + 1);
+  geo::OpDetID smaller_oid(cid, oid.OpDet - 1), same_oid(oid), larger_oid(cid, oid.OpDet + 1);
 
   TestIDcomparison(oid, smaller_oid, same_oid, larger_oid);
 
 } // test_OpDetID_nestedConstructor()
 
-
-void test_OpDetID_directConstructor() {
+void test_OpDetID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing optical detector ID constructed with indices");
 
@@ -362,14 +356,13 @@ void test_OpDetID_directConstructor() {
   BOOST_TEST(oid.getIndex<0U>() == 1);
   oid.writeIndex<0U>() = 2;
   BOOST_TEST(oid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(oid.getIndex<1U>() == 15);
   oid.writeIndex<1U>() = 19;
   BOOST_TEST(oid.getIndex<1U>() == 19);
-  
+
   // make sure the ID with optical detector 0 is fine (it's not a bad ID!)
-  BOOST_TEST_CHECKPOINT
-    ("Testing optical detector ID constructed with OpDet #0");
+  BOOST_TEST_CHECKPOINT("Testing optical detector ID constructed with OpDet #0");
 
   geo::OpDetID first_oid(0, 0);
   TestIDvalidity(first_oid, true);
@@ -377,18 +370,15 @@ void test_OpDetID_directConstructor() {
 
   // - check the ID value
   BOOST_TEST(first_oid.Cryostat == geo::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_oid.OpDet ==          geo::OpDetID::OpDetID_t(0));
-
+  BOOST_TEST(first_oid.OpDet == geo::OpDetID::OpDetID_t(0));
 
 } // test_OpDetID_directConstructor()
 
-
 // --- END OpDetID tests -------------------------------------------------------
 
-
-
 // --- BEGIN TPCID tests -------------------------------------------------------
-void test_TPCID_defaultConstructor() {
+void test_TPCID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed TPC ID");
 
@@ -403,8 +393,8 @@ void test_TPCID_defaultConstructor() {
 
 } // test_TPCID_defaultConstructor()
 
-
-void test_TPCID_integralConstructor() {
+void test_TPCID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed TPC ID");
 
@@ -423,8 +413,8 @@ void test_TPCID_integralConstructor() {
 
 } // test_TPCID_integralConstructor()
 
-
-void test_TPCID_nestedConstructor() {
+void test_TPCID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed TPC ID");
 
@@ -436,21 +426,20 @@ void test_TPCID_nestedConstructor() {
   TestSetIDvalidity(tid);
 
   // check the ID value
-  BOOST_TEST(tid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(tid.TPC ==                geo::TPCID::TPCID_t(15));
+  BOOST_TEST(tid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(tid.TPC == geo::TPCID::TPCID_t(15));
 
   // test comparison operators (exercise copy constructor too)
   // - with TPC ID
   BOOST_TEST_CHECKPOINT("Testing comparison with TPC ID");
-  geo::TPCID smaller_tid(cid, tid.TPC - 1), same_tid(tid),
-    larger_tid(cid, tid.TPC + 1);
+  geo::TPCID smaller_tid(cid, tid.TPC - 1), same_tid(tid), larger_tid(cid, tid.TPC + 1);
 
   TestIDcomparison(tid, smaller_tid, same_tid, larger_tid);
 
 } // test_TPCID_nestedConstructor()
 
-
-void test_TPCID_directConstructor() {
+void test_TPCID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing TPC ID constructed with indices");
 
@@ -477,30 +466,26 @@ void test_TPCID_directConstructor() {
   BOOST_TEST(tid.getIndex<0U>() == 1);
   tid.writeIndex<0U>() = 2;
   BOOST_TEST(tid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(tid.getIndex<1U>() == 15);
   tid.writeIndex<1U>() = 19;
   BOOST_TEST(tid.getIndex<1U>() == 19);
-  
-  
+
   geo::TPCID first_tid(0, 0);
   TestIDvalidity(first_tid, true);
   TestSetIDvalidity(first_tid);
 
   // - check the ID value
   BOOST_TEST(first_tid.Cryostat == geo::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_tid.TPC ==                geo::TPCID::TPCID_t(0));
-
+  BOOST_TEST(first_tid.TPC == geo::TPCID::TPCID_t(0));
 
 } // test_TPCID_directConstructor()
 
-
 // --- END TPCID tests ---------------------------------------------------------
 
-
-
 // --- BEGIN PlaneID tests -----------------------------------------------------
-void test_PlaneID_defaultConstructor() {
+void test_PlaneID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed plane ID");
 
@@ -515,8 +500,8 @@ void test_PlaneID_defaultConstructor() {
 
 } // test_PlaneID_defaultConstructor()
 
-
-void test_PlaneID_integralConstructor() {
+void test_PlaneID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed plane ID");
 
@@ -535,8 +520,8 @@ void test_PlaneID_integralConstructor() {
 
 } // test_PlaneID_integralConstructor()
 
-
-void test_PlaneID_nestedConstructor() {
+void test_PlaneID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed plane ID");
 
@@ -548,21 +533,20 @@ void test_PlaneID_nestedConstructor() {
   TestSetIDvalidity(pid);
 
   // check the ID value
-  BOOST_TEST(pid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(pid.TPC ==                geo::TPCID::TPCID_t(15));
-  BOOST_TEST(pid.Plane ==          geo::PlaneID::PlaneID_t(32));
+  BOOST_TEST(pid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(pid.TPC == geo::TPCID::TPCID_t(15));
+  BOOST_TEST(pid.Plane == geo::PlaneID::PlaneID_t(32));
 
   // test comparison operators (exercise copy constructor too)
   BOOST_TEST_CHECKPOINT("Testing comparison with plane ID");
-  geo::PlaneID smaller_pid(tid, pid.Plane - 1), same_pid(pid),
-    larger_pid(tid, pid.Plane + 1);
+  geo::PlaneID smaller_pid(tid, pid.Plane - 1), same_pid(pid), larger_pid(tid, pid.Plane + 1);
 
   TestIDcomparison(pid, smaller_pid, same_pid, larger_pid);
 
 } // test_PlaneID_nestedConstructor()
 
-
-void test_PlaneID_directConstructor() {
+void test_PlaneID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing plane ID constructed with indices");
 
@@ -573,14 +557,13 @@ void test_PlaneID_directConstructor() {
   TestSetIDvalidity(pid);
 
   // check the ID value
-  BOOST_TEST(pid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(pid.TPC ==                geo::TPCID::TPCID_t(15));
-  BOOST_TEST(pid.Plane ==          geo::PlaneID::PlaneID_t(32));
+  BOOST_TEST(pid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(pid.TPC == geo::TPCID::TPCID_t(15));
+  BOOST_TEST(pid.Plane == geo::PlaneID::PlaneID_t(32));
 
   BOOST_TEST_CHECKPOINT("Testing comparison with same TPC ID");
 
-  geo::PlaneID
-    smaller_pid(1, 15, 31), same_pid(1, 15, 32), larger_pid(1, 15, 33);
+  geo::PlaneID smaller_pid(1, 15, 31), same_pid(1, 15, 32), larger_pid(1, 15, 33);
   TestIDcomparison(pid, smaller_pid, same_pid, larger_pid);
 
   BOOST_TEST_CHECKPOINT("Testing comparison with different TPC ID (1)");
@@ -605,16 +588,15 @@ void test_PlaneID_directConstructor() {
   BOOST_TEST(pid.getIndex<0U>() == 1);
   pid.writeIndex<0U>() = 2;
   BOOST_TEST(pid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(pid.getIndex<1U>() == 15);
   pid.writeIndex<1U>() = 19;
   BOOST_TEST(pid.getIndex<1U>() == 19);
-  
+
   BOOST_TEST(pid.getIndex<2U>() == 32);
   pid.writeIndex<2U>() = 76;
   BOOST_TEST(pid.getIndex<2U>() == 76);
-  
-  
+
   // make sure the ID with plane 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing plane ID constructed with a plane #0");
 
@@ -624,18 +606,16 @@ void test_PlaneID_directConstructor() {
 
   // - check the ID value
   BOOST_TEST(first_pid.Cryostat == geo::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_pid.TPC ==                geo::TPCID::TPCID_t(0));
-  BOOST_TEST(first_pid.Plane ==          geo::PlaneID::PlaneID_t(0));
+  BOOST_TEST(first_pid.TPC == geo::TPCID::TPCID_t(0));
+  BOOST_TEST(first_pid.Plane == geo::PlaneID::PlaneID_t(0));
 
 } // test_PlaneID_directConstructor()
 
-
 // --- END PlaneID tests -------------------------------------------------------
 
-
-
 // --- BEGIN WireID tests ------------------------------------------------------
-void test_WireID_defaultConstructor() {
+void test_WireID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed wire ID");
 
@@ -650,8 +630,8 @@ void test_WireID_defaultConstructor() {
 
 } // test_WireID_defaultConstructor()
 
-
-void test_WireID_integralConstructor() {
+void test_WireID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed wire ID");
 
@@ -669,8 +649,8 @@ void test_WireID_integralConstructor() {
 #endif // GEO_TYPES_TEST_SKIP_COMPILATION_ERRORS
 } // test_WireID_integralConstructor()
 
-
-void test_WireID_nestedConstructor() {
+void test_WireID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed wire ID");
 
@@ -682,23 +662,22 @@ void test_WireID_nestedConstructor() {
   TestSetIDvalidity(wid);
 
   // check the ID value
-  BOOST_TEST(wid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(wid.TPC ==                geo::TPCID::TPCID_t(15));
-  BOOST_TEST(wid.Plane ==          geo::PlaneID::PlaneID_t(32));
-  BOOST_TEST(wid.Wire ==             geo::WireID::WireID_t(27));
+  BOOST_TEST(wid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(wid.TPC == geo::TPCID::TPCID_t(15));
+  BOOST_TEST(wid.Plane == geo::PlaneID::PlaneID_t(32));
+  BOOST_TEST(wid.Wire == geo::WireID::WireID_t(27));
 
   // test comparison operators (exercise copy constructor too)
   // - with TPC ID
   BOOST_TEST_CHECKPOINT("Testing comparison with wire ID");
-  geo::WireID smaller_wid(pid, wid.Wire - 1), same_wid(wid),
-    larger_wid(pid, wid.Wire + 1);
+  geo::WireID smaller_wid(pid, wid.Wire - 1), same_wid(wid), larger_wid(pid, wid.Wire + 1);
 
   TestIDcomparison(wid, smaller_wid, same_wid, larger_wid);
 
 } // test_WireID_nestedConstructor()
 
-
-void test_WireID_directConstructor() {
+void test_WireID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing wire ID constructed with indices");
 
@@ -709,16 +688,14 @@ void test_WireID_directConstructor() {
   TestSetIDvalidity(wid);
 
   // check the ID value
-  BOOST_TEST(wid.Cryostat == geo::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(wid.TPC ==                geo::TPCID::TPCID_t(15));
-  BOOST_TEST(wid.Plane ==          geo::PlaneID::PlaneID_t(32));
-  BOOST_TEST(wid.Wire ==             geo::WireID::WireID_t(27));
+  BOOST_TEST(wid.Cryostat == geo::CryostatID::CryostatID_t(1));
+  BOOST_TEST(wid.TPC == geo::TPCID::TPCID_t(15));
+  BOOST_TEST(wid.Plane == geo::PlaneID::PlaneID_t(32));
+  BOOST_TEST(wid.Wire == geo::WireID::WireID_t(27));
 
   BOOST_TEST_CHECKPOINT("Testing comparison with same TPC ID");
 
-  geo::WireID
-    smaller_wid(1, 15, 32, 26), same_wid(1, 15, 32, 27),
-    larger_wid(1, 15, 32, 28);
+  geo::WireID smaller_wid(1, 15, 32, 26), same_wid(1, 15, 32, 27), larger_wid(1, 15, 32, 28);
   TestIDcomparison(wid, smaller_wid, same_wid, larger_wid);
 
   BOOST_TEST_CHECKPOINT("Testing comparison with different plane ID (1)");
@@ -750,45 +727,43 @@ void test_WireID_directConstructor() {
 
   // make sure the ID with wire 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing wire ID constructed with a wire #0");
-  
+
   // test setting and accessing a single index
   BOOST_TEST(wid.getIndex<0U>() == 1);
   wid.writeIndex<0U>() = 2;
   BOOST_TEST(wid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(wid.getIndex<1U>() == 15);
   wid.writeIndex<1U>() = 19;
   BOOST_TEST(wid.getIndex<1U>() == 19);
-  
+
   BOOST_TEST(wid.getIndex<2U>() == 32);
   wid.writeIndex<2U>() = 76;
   BOOST_TEST(wid.getIndex<2U>() == 76);
-  
+
   BOOST_TEST(wid.getIndex<3U>() == 27);
   wid.writeIndex<3U>() = 45;
   BOOST_TEST(wid.getIndex<3U>() == 45);
-  
-  
+
   geo::WireID first_wid(0, 0, 0, 0);
   TestIDvalidity(first_wid, true);
   TestSetIDvalidity(first_wid);
 
   // - check the ID value
   BOOST_TEST(first_wid.Cryostat == geo::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_wid.TPC ==                geo::TPCID::TPCID_t(0));
-  BOOST_TEST(first_wid.Plane ==          geo::PlaneID::PlaneID_t(0));
-  BOOST_TEST(first_wid.Wire ==             geo::WireID::WireID_t(0));
+  BOOST_TEST(first_wid.TPC == geo::TPCID::TPCID_t(0));
+  BOOST_TEST(first_wid.Plane == geo::PlaneID::PlaneID_t(0));
+  BOOST_TEST(first_wid.Wire == geo::WireID::WireID_t(0));
 
 } // test_WireID_directConstructor()
 
-
 // --- END WireID tests -------------------------------------------------------
-
 
 //
 // CryostatID test
 //
-BOOST_AUTO_TEST_CASE(CryostatIDtest) {
+BOOST_AUTO_TEST_CASE(CryostatIDtest)
+{
   test_CryostatID_defaultConstructor();
   test_CryostatID_directConstructor();
 }
@@ -796,7 +771,8 @@ BOOST_AUTO_TEST_CASE(CryostatIDtest) {
 //
 // OpDetID test
 //
-BOOST_AUTO_TEST_CASE(OpDetIDtest) {
+BOOST_AUTO_TEST_CASE(OpDetIDtest)
+{
   test_OpDetID_defaultConstructor();
   test_OpDetID_nestedConstructor();
   test_OpDetID_directConstructor();
@@ -806,7 +782,8 @@ BOOST_AUTO_TEST_CASE(OpDetIDtest) {
 //
 // TPCID test
 //
-BOOST_AUTO_TEST_CASE(TPCIDtest) {
+BOOST_AUTO_TEST_CASE(TPCIDtest)
+{
   test_TPCID_defaultConstructor();
   test_TPCID_nestedConstructor();
   test_TPCID_directConstructor();
@@ -816,7 +793,8 @@ BOOST_AUTO_TEST_CASE(TPCIDtest) {
 //
 // PlaneID test
 //
-BOOST_AUTO_TEST_CASE(PlaneIDtest) {
+BOOST_AUTO_TEST_CASE(PlaneIDtest)
+{
   test_PlaneID_defaultConstructor();
   test_PlaneID_nestedConstructor();
   test_PlaneID_directConstructor();
@@ -826,10 +804,10 @@ BOOST_AUTO_TEST_CASE(PlaneIDtest) {
 //
 // WireID test
 //
-BOOST_AUTO_TEST_CASE(WireIDtest) {
+BOOST_AUTO_TEST_CASE(WireIDtest)
+{
   test_WireID_defaultConstructor();
   test_WireID_nestedConstructor();
   test_WireID_directConstructor();
   test_WireID_integralConstructor();
 }
-

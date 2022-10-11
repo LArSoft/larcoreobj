@@ -10,7 +10,6 @@
 #ifndef LARCOREOBJ_SIMPLETYPESANDCONSTANTS_READOUT_TYPES_FHICL_H
 #define LARCOREOBJ_SIMPLETYPESANDCONSTANTS_READOUT_TYPES_FHICL_H
 
-
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/geo_types_fhicl.h"
 #include "larcoreobj/SimpleTypesAndConstants/readout_types.h"
@@ -18,44 +17,37 @@
 // support libraries
 #include "fhiclcpp/types/Atom.h"
 
-
 namespace geo::fhicl {
 
   /// Configuration structure for validated `readout::TPCsetID` parameter.
   template <>
-  struct IDConfig<readout::TPCsetID>: public IDConfig<readout::CryostatID> {
+  struct IDConfig<readout::TPCsetID> : public IDConfig<readout::CryostatID> {
     using ID_t = readout::TPCsetID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<readout::TPCsetID::TPCsetID_t> S {
+    ::fhicl::Atom<readout::TPCsetID::TPCsetID_t> S{
       ::fhicl::Name("S"),
       ::fhicl::Comment("TPC set number within the cryostat"),
-      [this](){ return valid(); }
-      };
+      [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<readout::CryostatID>::ID(), S() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<readout::CryostatID>::ID(), S()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<readout::TPCsetID>
 
-
   /// Configuration structure for validated `readout::ROPID` parameter.
   template <>
-  struct IDConfig<readout::ROPID>: public IDConfig<readout::TPCsetID> {
+  struct IDConfig<readout::ROPID> : public IDConfig<readout::TPCsetID> {
     using ID_t = readout::ROPID; ///< Type read by this configuration.
 
-    ::fhicl::Atom<readout::ROPID::ROPID_t> R {
+    ::fhicl::Atom<readout::ROPID::ROPID_t> R{
       ::fhicl::Name("R"),
       ::fhicl::Comment("Readout plane number within the TPC set"),
-      [this](){ return valid(); }
-      };
+      [this]() { return valid(); }};
 
-    ID_t ID() const
-      { return !valid()? ID_t{}: ID_t{ IDConfig<readout::TPCsetID>::ID(), R() }; }
+    ID_t ID() const { return !valid() ? ID_t{} : ID_t{IDConfig<readout::TPCsetID>::ID(), R()}; }
     operator ID_t() const { return ID(); }
   }; // struct IDConfig<readout::ROPID>
 
 } // namespace geo::fhicl
-
 
 /// FHiCL objects representing geometry classes as configuration parameters.
 namespace readout::fhicl {
@@ -65,25 +57,24 @@ namespace readout::fhicl {
   //
   // types
   //
-  using geo::fhicl::IDparameterTraits;
-  using geo::fhicl::IDof;
   using geo::fhicl::IDConfig;
+  using geo::fhicl::IDof;
   using geo::fhicl::IDparameter;
-  using geo::fhicl::OptionalID;
+  using geo::fhicl::IDparameterTraits;
   using geo::fhicl::IDsequence;
+  using geo::fhicl::OptionalID;
   using geo::fhicl::OptionalIDsequence;
 
   //
   // utilities
   //
   using geo::fhicl::readID;
-  using geo::fhicl::readOptionalID;
   using geo::fhicl::readIDsequence;
+  using geo::fhicl::readOptionalID;
   using geo::fhicl::readOptionalIDsequence;
   using geo::fhicl::readParameter;
 
   // --- END -- Importing from geo::fhicl namespace ----------------------------
-
 
   // --- BEGIN -- Validated configuration parameters for readout ID objects ----
   /**
@@ -132,7 +123,6 @@ namespace readout::fhicl {
 
   // --- END -- Cryostat ID ----------------------------------------------------
 
-
   // --- BEGIN -- TPC set ID ---------------------------------------------------
 
   /// Member type of validated `readout::TPCsetID` parameter.
@@ -148,7 +138,6 @@ namespace readout::fhicl {
   using OptionalTPCsetIDsequence = OptionalIDsequence<readout::TPCsetID>;
 
   // --- END -- TPC set ID -----------------------------------------------------
-
 
   // --- BEGIN -- Readout plane ID ---------------------------------------------
 
@@ -166,15 +155,11 @@ namespace readout::fhicl {
 
   // --- END -- Readout plane ID -----------------------------------------------
 
-
   /// @}
   // --- END -- Validated configuration parameters for readout ID objects ------
 
 } // namespace readout::fhicl
 
-
 // -----------------------------------------------------------------------------
 
-
 #endif // LARCOREOBJ_SIMPLETYPESANDCONSTANTS_READOUT_TYPES_FHICL_H
-

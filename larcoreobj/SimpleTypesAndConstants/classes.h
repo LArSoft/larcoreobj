@@ -10,7 +10,6 @@
 // (or their collections) directly into a art::Event:
 // #include "canvas/Persistency/Common/Wrapper.h"
 
-
 #include "larcoreobj/SimpleTypesAndConstants/geo_vectors.h"
 
 #include <vector>

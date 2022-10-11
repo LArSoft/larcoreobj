@@ -8,7 +8,7 @@
 // Define the following non-zero to exclude include code that is required
 // not to be compilable
 #ifndef READOUT_TYPES_TEST_SKIP_COMPILATION_ERRORS
-#  define READOUT_TYPES_TEST_SKIP_COMPILATION_ERRORS 1
+#define READOUT_TYPES_TEST_SKIP_COMPILATION_ERRORS 1
 #endif // !READOUT_TYPES_TEST_SKIP_COMPILATION_ERRORS
 
 // Boost libraries
@@ -21,17 +21,18 @@
  * This also makes fairly complicate to receive parameters from the command line
  * (for example, a random seed).
  */
-#define BOOST_TEST_MODULE ( readout_types_test )
+#define BOOST_TEST_MODULE (readout_types_test)
 #include "boost/test/unit_test.hpp"
 
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/readout_types.h"
 
-
 //------------------------------------------------------------------------------
 template <typename ID>
 constexpr bool assertGeoIDlevel()
-  { return geo::details::geoElementLevel<ID>() == ID::Level; }
+{
+  return geo::details::geoElementLevel<ID>() == ID::Level;
+}
 
 //------------------------------------------------------------------------------
 // compile-time tests:
@@ -53,53 +54,38 @@ static_assert(std::is_same_v<readout::ROPID::UpperID_t<0U>, readout::ROPID>);
 static_assert(std::is_same_v<readout::ROPID::UpperID_t<1U>, readout::TPCsetID>);
 static_assert(std::is_same_v<readout::ROPID::UpperID_t<2U>, readout::CryostatID>);
 
-static_assert(readout::TPCsetID{0,1}.getIndex   <0U>() == 0);
-static_assert(readout::TPCsetID{0,1}.getIndex   <1U>() == 1);
-static_assert(readout::TPCsetID{0,1}.getRelIndex<0U>() == 1);
-static_assert(readout::TPCsetID{0,1}.getRelIndex<1U>() == 0);
-static_assert(readout::ROPID{0,1,2} .getIndex   <0U>() == 0);
-static_assert(readout::ROPID{0,1,2} .getIndex   <1U>() == 1);
-static_assert(readout::ROPID{0,1,2} .getIndex   <2U>() == 2);
-static_assert(readout::ROPID{0,1,2} .getRelIndex<0U>() == 2);
-static_assert(readout::ROPID{0,1,2} .getRelIndex<1U>() == 1);
-static_assert(readout::ROPID{0,1,2} .getRelIndex<2U>() == 0);
+static_assert(readout::TPCsetID{0, 1}.getIndex<0U>() == 0);
+static_assert(readout::TPCsetID{0, 1}.getIndex<1U>() == 1);
+static_assert(readout::TPCsetID{0, 1}.getRelIndex<0U>() == 1);
+static_assert(readout::TPCsetID{0, 1}.getRelIndex<1U>() == 0);
+static_assert(readout::ROPID{0, 1, 2}.getIndex<0U>() == 0);
+static_assert(readout::ROPID{0, 1, 2}.getIndex<1U>() == 1);
+static_assert(readout::ROPID{0, 1, 2}.getIndex<2U>() == 2);
+static_assert(readout::ROPID{0, 1, 2}.getRelIndex<0U>() == 2);
+static_assert(readout::ROPID{0, 1, 2}.getRelIndex<1U>() == 1);
+static_assert(readout::ROPID{0, 1, 2}.getRelIndex<2U>() == 0);
 
 // IDs must not be convertible to integers
-static_assert(
-  !std::is_convertible
-    <readout::CryostatID, readout::CryostatID::CryostatID_t>::value,
-  "readout::CryostatID can be implicitly converted to an integral type"
-  );
+static_assert(!std::is_convertible<readout::CryostatID, readout::CryostatID::CryostatID_t>::value,
+              "readout::CryostatID can be implicitly converted to an integral type");
 
-static_assert(
-  !std::is_convertible
-    <readout::TPCsetID, readout::CryostatID::CryostatID_t>::value,
-  "readout::TPCsetID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<readout::TPCsetID, readout::TPCsetID::TPCsetID_t>::value,
-  "readout::TPCsetID can be implicitly converted to an integral type"
-  );
+static_assert(!std::is_convertible<readout::TPCsetID, readout::CryostatID::CryostatID_t>::value,
+              "readout::TPCsetID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<readout::TPCsetID, readout::TPCsetID::TPCsetID_t>::value,
+              "readout::TPCsetID can be implicitly converted to an integral type");
 
-static_assert(
-  !std::is_convertible
-    <readout::ROPID, readout::CryostatID::CryostatID_t>::value,
-  "readout::ROPID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<readout::ROPID, readout::TPCsetID::TPCsetID_t>::value,
-  "readout::ROPID can be implicitly converted to an integral type"
-  );
-static_assert(
-  !std::is_convertible<readout::ROPID, readout::ROPID::ROPID_t>::value,
-  "readout::ROPID can be implicitly converted to an integral type"
-  );
-
+static_assert(!std::is_convertible<readout::ROPID, readout::CryostatID::CryostatID_t>::value,
+              "readout::ROPID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<readout::ROPID, readout::TPCsetID::TPCsetID_t>::value,
+              "readout::ROPID can be implicitly converted to an integral type");
+static_assert(!std::is_convertible<readout::ROPID, readout::ROPID::ROPID_t>::value,
+              "readout::ROPID can be implicitly converted to an integral type");
 
 //------------------------------------------------------------------------------
 // run-time tests:
 //
-void TestIDvalidity(readout::CryostatID const& id, bool answer) {
+void TestIDvalidity(readout::CryostatID const& id, bool answer)
+{
   // - check isValid
   BOOST_TEST(id.isValid == answer);
   // - check operator!
@@ -110,22 +96,24 @@ void TestIDvalidity(readout::CryostatID const& id, bool answer) {
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareSmallerID(TESTID const& id, REFID  const& smaller) {
-  BOOST_TEST(!(id      <  smaller) );
-  BOOST_TEST(!(id      == smaller) );
-  BOOST_TEST(  id      != smaller  );
-  BOOST_TEST(  smaller <       id  );
+void TestCompareSmallerID(TESTID const& id, REFID const& smaller)
+{
+  BOOST_TEST(!(id < smaller));
+  BOOST_TEST(!(id == smaller));
+  BOOST_TEST(id != smaller);
+  BOOST_TEST(smaller < id);
   BOOST_TEST(smaller.cmp(id) < 0);
   BOOST_TEST(id.cmp(smaller) > 0);
 } // TestCompareSmallerID()
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareSameID(TESTID const& id, REFID  const& same) {
-  BOOST_TEST(!(id      <  same) );
-  BOOST_TEST(  id      == same  );
-  BOOST_TEST(!(id      != same) );
-  BOOST_TEST(!(same <     id) );
+void TestCompareSameID(TESTID const& id, REFID const& same)
+{
+  BOOST_TEST(!(id < same));
+  BOOST_TEST(id == same);
+  BOOST_TEST(!(id != same));
+  BOOST_TEST(!(same < id));
   BOOST_TEST(same.cmp(id) == 0);
   BOOST_TEST(id.cmp(same) == 0);
 } // TestCompareSameID()
@@ -133,36 +121,37 @@ void TestCompareSameID(TESTID const& id, REFID  const& same) {
 /// Test comparison operators
 template <typename TESTID>
 void TestCompareSelfID(TESTID const& id)
-  { return TestCompareSameID(id, id); }
+{
+  return TestCompareSameID(id, id);
+}
 
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestCompareLargerID(TESTID const& id, REFID  const& larger) {
-  BOOST_TEST(  id     <  larger  );
-  BOOST_TEST(  id     != larger  );
-  BOOST_TEST(!(id     == larger) );
-  BOOST_TEST(!(larger <      id) );
+void TestCompareLargerID(TESTID const& id, REFID const& larger)
+{
+  BOOST_TEST(id < larger);
+  BOOST_TEST(id != larger);
+  BOOST_TEST(!(id == larger));
+  BOOST_TEST(!(larger < id));
   BOOST_TEST(larger.cmp(id) > 0);
   BOOST_TEST(id.cmp(larger) < 0);
 } // TestCompareLargerID()
 
-
 /// Test comparison operators
 template <typename TESTID, typename REFID = TESTID>
-void TestIDcomparison(
-  TESTID const& id,
-  REFID  const& smaller,
-  REFID  const& same,
-  REFID  const& larger
-) {
+void TestIDcomparison(TESTID const& id,
+                      REFID const& smaller,
+                      REFID const& same,
+                      REFID const& larger)
+{
   TestCompareSmallerID(id, smaller);
   TestCompareSameID(id, same);
   TestCompareSelfID(id);
   TestCompareLargerID(id, larger);
 } // TestCryostatComparison()
 
-
-void test_CryostatID_defaultConstructor() {
+void test_CryostatID_defaultConstructor()
+{
 
   BOOST_TEST_MESSAGE("Testing default-constructed cryostat ID");
 
@@ -171,7 +160,7 @@ void test_CryostatID_defaultConstructor() {
   // a default-constructed ID is invalid:
   TestIDvalidity(cid, false);
 
-/* // feature not added
+  /* // feature not added
   // test assignment from ID_t
   cid = 1;
   BOOST_TEST(cid.Cryostat == 1);
@@ -179,8 +168,8 @@ void test_CryostatID_defaultConstructor() {
 
 } // test_CryostatID_defaultConstructor()
 
-
-void test_CryostatID_directConstructor() {
+void test_CryostatID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing cryostat ID constructed with an integer");
 
@@ -198,7 +187,6 @@ void test_CryostatID_directConstructor() {
 
   TestIDcomparison(cid, smaller_cid, same_cid, larger_cid);
 
-
   // make sure the ID with cryostat 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing cryostat ID constructed with an integer 0");
 
@@ -210,9 +198,8 @@ void test_CryostatID_directConstructor() {
 
 } // test_CryostatID_directConstructor()
 
-
-
-void test_TPCsetID_defaultConstructor() {
+void test_TPCsetID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed TPC set ID");
 
@@ -223,8 +210,8 @@ void test_TPCsetID_defaultConstructor() {
 
 } // test_TPCsetID_defaultConstructor()
 
-
-void test_TPCsetID_integralConstructor() {
+void test_TPCsetID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed TPC set ID");
 
@@ -243,8 +230,8 @@ void test_TPCsetID_integralConstructor() {
 
 } // test_TPCsetID_integralConstructor()
 
-
-void test_TPCsetID_nestedConstructor() {
+void test_TPCsetID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed TPC set ID");
 
@@ -255,8 +242,8 @@ void test_TPCsetID_nestedConstructor() {
   TestIDvalidity(sid, true);
 
   // check the ID value
-  BOOST_TEST(sid.Cryostat == readout::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(sid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(sid.Cryostat == readout::CryostatID::CryostatID_t(1));
+  BOOST_TEST(sid.TPCset == readout::TPCsetID::TPCsetID_t(15));
 
   // test comparison operators (exercise copy constructor too)
   // - with TPC ID
@@ -268,8 +255,8 @@ void test_TPCsetID_nestedConstructor() {
 
 } // test_TPCsetID_nestedConstructor()
 
-
-void test_TPCsetID_directConstructor() {
+void test_TPCsetID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing TPC set ID constructed with indices");
 
@@ -292,11 +279,11 @@ void test_TPCsetID_directConstructor() {
   BOOST_TEST(sid.getIndex<0U>() == 1);
   sid.writeIndex<0U>() = 2;
   BOOST_TEST(sid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(sid.getIndex<1U>() == 15);
   sid.writeIndex<1U>() = 19;
   BOOST_TEST(sid.getIndex<1U>() == 19);
-  
+
   // make sure the ID with TPC set 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing TPC set ID constructed with a TPC set #0");
 
@@ -305,14 +292,12 @@ void test_TPCsetID_directConstructor() {
 
   // - check the ID value
   BOOST_TEST(first_sid.Cryostat == readout::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_sid.TPCset ==       readout::TPCsetID::TPCsetID_t(0));
-
+  BOOST_TEST(first_sid.TPCset == readout::TPCsetID::TPCsetID_t(0));
 
 } // test_TPCsetID_directConstructor()
 
-
-
-void test_ROPID_defaultConstructor() {
+void test_ROPID_defaultConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing default-constructed ROP ID");
 
@@ -323,8 +308,8 @@ void test_ROPID_defaultConstructor() {
 
 } // test_ROPID_defaultConstructor()
 
-
-void test_ROPID_integralConstructor() {
+void test_ROPID_integralConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing integral-constructed ROP ID");
 
@@ -343,8 +328,8 @@ void test_ROPID_integralConstructor() {
 
 } // test_ROPID_integralConstructor()
 
-
-void test_ROPID_nestedConstructor() {
+void test_ROPID_nestedConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ID-constructed ROP ID");
 
@@ -355,21 +340,20 @@ void test_ROPID_nestedConstructor() {
   TestIDvalidity(rid, true);
 
   // check the ID value
-  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(rid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
-  BOOST_TEST(rid.ROP ==                readout::ROPID::ROPID_t(32));
+  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t(1));
+  BOOST_TEST(rid.TPCset == readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(rid.ROP == readout::ROPID::ROPID_t(32));
 
   // test comparison operators (exercise copy constructor too)
   BOOST_TEST_CHECKPOINT("Testing comparison with ROP ID");
-  readout::ROPID smaller_rid(sid, rid.ROP - 1), same_rid(rid),
-    larger_rid(sid, rid.ROP + 1);
+  readout::ROPID smaller_rid(sid, rid.ROP - 1), same_rid(rid), larger_rid(sid, rid.ROP + 1);
 
   TestIDcomparison(rid, smaller_rid, same_rid, larger_rid);
 
 } // test_ROPID_nestedConstructor()
 
-
-void test_ROPID_directConstructor() {
+void test_ROPID_directConstructor()
+{
 
   BOOST_TEST_CHECKPOINT("Testing ROP ID constructed with indices");
 
@@ -379,14 +363,13 @@ void test_ROPID_directConstructor() {
   TestIDvalidity(rid, true);
 
   // check the ID value
-  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t( 1));
-  BOOST_TEST(rid.TPCset ==       readout::TPCsetID::TPCsetID_t(15));
-  BOOST_TEST(rid.ROP ==                readout::ROPID::ROPID_t(32));
+  BOOST_TEST(rid.Cryostat == readout::CryostatID::CryostatID_t(1));
+  BOOST_TEST(rid.TPCset == readout::TPCsetID::TPCsetID_t(15));
+  BOOST_TEST(rid.ROP == readout::ROPID::ROPID_t(32));
 
   BOOST_TEST_CHECKPOINT("Testing comparison with same TPC set ID");
 
-  readout::ROPID
-    smaller_rid(1, 15, 31), same_rid(1, 15, 32), larger_rid(1, 15, 33);
+  readout::ROPID smaller_rid(1, 15, 31), same_rid(1, 15, 32), larger_rid(1, 15, 33);
   TestIDcomparison(rid, smaller_rid, same_rid, larger_rid);
 
   BOOST_TEST_CHECKPOINT("Testing comparison with different TPC set ID (1)");
@@ -411,15 +394,15 @@ void test_ROPID_directConstructor() {
   BOOST_TEST(rid.getIndex<0U>() == 1);
   rid.writeIndex<0U>() = 2;
   BOOST_TEST(rid.getIndex<0U>() == 2);
-  
+
   BOOST_TEST(rid.getIndex<1U>() == 15);
   rid.writeIndex<1U>() = 19;
   BOOST_TEST(rid.getIndex<1U>() == 19);
-  
+
   BOOST_TEST(rid.getIndex<2U>() == 32);
   rid.writeIndex<2U>() = 76;
   BOOST_TEST(rid.getIndex<2U>() == 76);
-  
+
   // make sure the ID with TPC 0 is fine (it's not a bad ID!)
   BOOST_TEST_CHECKPOINT("Testing ROP ID constructed with a ROP #0");
 
@@ -428,18 +411,16 @@ void test_ROPID_directConstructor() {
 
   // - check the ID value
   BOOST_TEST(first_rid.Cryostat == readout::CryostatID::CryostatID_t(0));
-  BOOST_TEST(first_rid.TPCset ==       readout::TPCsetID::TPCsetID_t(0));
-  BOOST_TEST(first_rid.ROP ==                readout::ROPID::ROPID_t(0));
+  BOOST_TEST(first_rid.TPCset == readout::TPCsetID::TPCsetID_t(0));
+  BOOST_TEST(first_rid.ROP == readout::ROPID::ROPID_t(0));
 
 } // test_ROPID_directConstructor()
-
-
-
 
 //
 // CryostatID test
 //
-BOOST_AUTO_TEST_CASE(CryostatIDtest) {
+BOOST_AUTO_TEST_CASE(CryostatIDtest)
+{
   test_CryostatID_defaultConstructor();
   test_CryostatID_directConstructor();
 }
@@ -447,7 +428,8 @@ BOOST_AUTO_TEST_CASE(CryostatIDtest) {
 //
 // TPCsetID test
 //
-BOOST_AUTO_TEST_CASE(TPCsetIDtest) {
+BOOST_AUTO_TEST_CASE(TPCsetIDtest)
+{
   test_TPCsetID_defaultConstructor();
   test_TPCsetID_nestedConstructor();
   test_TPCsetID_directConstructor();
@@ -457,10 +439,10 @@ BOOST_AUTO_TEST_CASE(TPCsetIDtest) {
 //
 // ROPID test
 //
-BOOST_AUTO_TEST_CASE(ROPIDtest) {
+BOOST_AUTO_TEST_CASE(ROPIDtest)
+{
   test_ROPID_defaultConstructor();
   test_ROPID_nestedConstructor();
   test_ROPID_directConstructor();
   test_ROPID_integralConstructor();
 }
-

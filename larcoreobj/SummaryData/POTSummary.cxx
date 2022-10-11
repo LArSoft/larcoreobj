@@ -6,19 +6,19 @@
 /// \author  brebel@fnal.gov
 ////////////////////////////////////////////////////////////////////////
 
-
 #include "larcoreobj/SummaryData/POTSummary.h"
 
-namespace sumdata{
+namespace sumdata {
 
   //----------------------------------------------------------------------------
-  void POTSummary::aggregate(POTSummary const& other) {
-    totpot     += other.totpot    ;
+  void POTSummary::aggregate(POTSummary const& other)
+  {
+    totpot += other.totpot;
     totgoodpot += other.totgoodpot;
-    totspills  += other.totspills ;
+    totspills += other.totspills;
     goodspills += other.goodspills;
   } // POTSummary::aggregate()
 
   //----------------------------------------------------------------------------
 
-}// end namespace
+} // end namespace

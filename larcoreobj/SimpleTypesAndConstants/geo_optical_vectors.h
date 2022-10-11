@@ -16,7 +16,6 @@
 // LArSoft libraries
 #include "larcoreobj/SimpleTypesAndConstants/geo_vectors.h"
 
-
 namespace geo {
 
   /**
@@ -41,34 +40,27 @@ namespace geo {
   /// The tag defining the optical detector local reference frame.
   struct OpticalLocalCoordinateSystemTag {};
 
-
   /// Type of optical local 3D displacement vector.
   /// @tparam T data type for coordinate representation
   template <typename T>
-  using OpticalVector3DBase_t
-    = GenVector3DBase_t<T, OpticalLocalCoordinateSystemTag>;
+  using OpticalVector3DBase_t = GenVector3DBase_t<T, OpticalLocalCoordinateSystemTag>;
 
   /// Type of optical local 3D point.
   /// @tparam T data type for coordinate representation
   template <typename T>
-  using OpticalPoint3DBase_t
-    = GenPoint3DBase_t<T, OpticalLocalCoordinateSystemTag>;
-
+  using OpticalPoint3DBase_t = GenPoint3DBase_t<T, OpticalLocalCoordinateSystemTag>;
 
   /// Type of optical 3D displacement vector with representation in
   /// double precision.
   using OpticalVector_t = OpticalVector3DBase_t<double>;
-  
+
   /// Type of optical 3D point with representation in double precision.
   using OpticalPoint_t = OpticalPoint3DBase_t<double>;
 
-
   /// @}
-
 
   //----------------------------------------------------------------------------
 
 } // namespace geo
-
 
 #endif // LARCOREOBJ_SIMPLETYPESANDCONSTANTS_GEO_OPTICAL_VECTORS_H

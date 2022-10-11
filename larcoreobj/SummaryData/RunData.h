@@ -12,10 +12,9 @@
 
 namespace sumdata {
 
-  class RunData{
+  class RunData {
 
   public:
-
     RunData(); // Default constructor
 
     /// What to do when multiple `RunData` objects are found for the same run.
@@ -24,19 +23,18 @@ namespace sumdata {
     void aggregate(RunData const& other);
 
   private:
-
-    std::string  fDetName; ///< Detector name.
+    std::string fDetName; ///< Detector name.
 
   public:
-    explicit           RunData(std::string const& detectorName);
+    explicit RunData(std::string const& detectorName);
     std::string const& DetName() const;
-
 
   }; // RunData
 } // namespace sumdata
 
-
-inline std::string const& sumdata::RunData::DetName() const { return fDetName; }
-
+inline std::string const& sumdata::RunData::DetName() const
+{
+  return fDetName;
+}
 
 #endif // LARCOREOBJ_SUMMARYDATA_RUNDATA_H
