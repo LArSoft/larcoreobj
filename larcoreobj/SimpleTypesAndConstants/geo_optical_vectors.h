@@ -21,10 +21,10 @@ namespace geo {
   /**
    * @name Optical detector vector types.
    * @ingroup Geometry
-   * 
+   *
    * Special tags for a generic "optical detector local coordinate system"
    * are defined here, together with data types using them.
-   * 
+   *
    * While the world coordinate system makes sense to be defined in this way,
    * a local system depends by definition by the object it is anchored to:
    * while two world coordinate vectors are always compatible, two local
@@ -33,7 +33,7 @@ namespace geo {
    * between world coordinate vectors and the ones local to optical detectors,
    * without attempting to claim that two of the latter are necessarily
    * compatible.
-   * 
+   *
    */
   /// @{
 

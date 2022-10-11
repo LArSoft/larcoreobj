@@ -4,7 +4,7 @@
  * @author Gianluca Petrillo (petrillo@slac.stanford.edu)
  * @date   May 13, 2020
  * @see    larcoreobj/SummaryData/GeometryConfigurationInfo.h
- * 
+ *
  * This is a header-only library.
  */
 
