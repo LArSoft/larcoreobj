@@ -3,27 +3,52 @@
  * @brief  Definition of data types for geometry description (implementation).
  * @see    larcoreobj/SimpleTypesAndConstants/geo_types.h
  * @ingroup Geometry
- *
- * This library is currently header-only and depends only on standard C++.
- *
  */
 
 // header library
 #include "larcoreobj/SimpleTypesAndConstants/geo_types.h"
 
 // C++ standard libraries
+#include <ostream>
 #include <stdexcept> // std::logic_error
 
-// -----------------------------------------------------------------------------
-std::string geo::SignalTypeName(geo::SigType_t sigType)
-{
-  switch (sigType) {
-  case geo::kInduction: return "induction";
-  case geo::kCollection: return "collection";
-  case geo::kMysteryType: return "unknown";
-  } // switch
-  throw std::logic_error("geo::SignalTypeName(): unexpected signal type #" +
-                         std::to_string(static_cast<int>(sigType)));
-} // geo::SignalTypeName()
+namespace geo {
+
+  std::ostream& operator<<(std::ostream& os, Coordinate const coordinate)
+  {
+    switch (coordinate) {
+    case Coordinate::X: os << 'X'; break;
+    case Coordinate::Y: os << 'Y'; break;
+    case Coordinate::Z: os << 'Z'; break;
+    }
+    return os;
+  }
+
+  std::ostream& operator<<(std::ostream& os, DriftSign const sign)
+  {
+    switch (sign) {
+    case DriftSign::Positive: os << '+'; break;
+    case DriftSign::Negative: os << '-'; break;
+    case DriftSign::Unknown: os << '?'; break;
+    }
+    return os;
+  }
+
+  std::ostream& operator<<(std::ostream& os, DriftAxis const driftAxis)
+  {
+    return os << driftAxis.sign << driftAxis.coordinate;
+  }
+
+  std::string SignalTypeName(SigType_t sigType)
+  {
+    switch (sigType) {
+    case kInduction: return "induction";
+    case kCollection: return "collection";
+    case kMysteryType: return "unknown";
+    } // switch
+    throw std::logic_error("geo::SignalTypeName(): unexpected signal type #" +
+                           std::to_string(static_cast<int>(sigType)));
+  }
+}
 
 // -----------------------------------------------------------------------------
