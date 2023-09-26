@@ -170,6 +170,8 @@ namespace geo {
     Coordinate coordinate;
     DriftSign sign;
   };
+  bool operator==(DriftAxis a, DriftAxis b);
+  bool operator!=(DriftAxis a, DriftAxis b);
   std::ostream& operator<<(std::ostream& os, DriftAxis);
 
   /// @}
@@ -578,7 +580,7 @@ namespace geo {
 
     // In APAs, we want this to increase in the direction wireID
     // index increases in: moving inward vertically towards y=0
-    bool operator<(const WireIDIntersection& otherIntersect) const
+    bool operator<(WireIDIntersection const& otherIntersect) const
     {
       return std::abs(y) > std::abs(otherIntersect.y);
     }
