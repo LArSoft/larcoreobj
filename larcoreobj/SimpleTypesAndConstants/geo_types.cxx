@@ -39,7 +39,10 @@ namespace geo {
     return a.coordinate == b.coordinate and a.sign == b.sign;
   }
 
-  bool operator!=(DriftAxis const a, DriftAxis const b) { return not(a == b); }
+  bool operator!=(DriftAxis const a, DriftAxis const b)
+  {
+    return not(a == b);
+  }
 
   std::ostream& operator<<(std::ostream& os, DriftAxis const driftAxis)
   {

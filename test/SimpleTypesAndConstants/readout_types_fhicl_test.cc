@@ -889,7 +889,10 @@ void test_ROPUnifiedInterface()
   BOOST_TEST(id41.size() == expected4.size());
   std::size_t max41 = std::max(id41.size(), expected4.size());
   for (std::size_t i = 0U; i < max41; ++i)
-    BOOST_TEST_CONTEXT("element " << i) { BOOST_TEST(id41[i] == expected4[i]); }
+    BOOST_TEST_CONTEXT("element " << i)
+    {
+      BOOST_TEST(id41[i] == expected4[i]);
+    }
 
   //
   // read optional sequence

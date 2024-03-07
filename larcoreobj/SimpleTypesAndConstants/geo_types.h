@@ -121,7 +121,10 @@ namespace geo {
 
   enum class Coordinate { X, Y, Z };
   std::ostream& operator<<(std::ostream& os, Coordinate);
-  constexpr int to_int(Coordinate const coord) noexcept { return static_cast<int>(coord); }
+  constexpr int to_int(Coordinate const coord) noexcept
+  {
+    return static_cast<int>(coord);
+  }
 
   /// Enumerate the possible plane projections
   typedef enum _plane_proj {
@@ -531,7 +534,10 @@ namespace geo {
   }
 
   /// Comparison: the IDs point to different cryostats (validity is ignored)
-  inline constexpr bool operator!=(CryostatID const& a, CryostatID const& b) { return !(a == b); }
+  inline constexpr bool operator!=(CryostatID const& a, CryostatID const& b)
+  {
+    return !(a == b);
+  }
 
   /// Order cryostats with increasing ID
   inline constexpr bool operator<(CryostatID const& a, CryostatID const& b)
