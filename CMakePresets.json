@@ -13,14 +13,6 @@
             "CMAKE_CXX_STANDARD_REQUIRED" : {
                "type" : "BOOL",
                "value" : "ON"
-            },
-            "larcoreobj_ADD_NOARCH_DIRS_INIT" : {
-               "type" : "INTERNAL",
-               "value" : "GDML_DIR;FHICL_DIR"
-            },
-            "larcoreobj_FHICL_DIR_INIT" : {
-               "type" : "STRING",
-               "value" : "job"
             }
          },
          "description" : "Configuration settings translated from ups/product_deps",
