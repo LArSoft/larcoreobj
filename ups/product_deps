@@ -173,9 +173,6 @@ defaultqual	e26
 #     Wirecell data.
 #
 ####################################
-fcldir	product_dir	job
-gdmldir	product_dir
-####################################
 
 ####################################
 # Product table.
