@@ -45,7 +45,7 @@ namespace geo::details {
   }
 
   template <typename T>
-  constexpr auto const index_for()
+  constexpr auto index_for()
   {
     std::size_t index{};
     index_impl<T>(index);
