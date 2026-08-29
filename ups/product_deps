@@ -87,7 +87,7 @@
 #>  define_pythonpath
 ####################################
 parent		larcoreobj
-defaultqual	e26
+defaultqual	e28
 ####################################
 
 ####################################
@@ -245,7 +245,7 @@ defaultqual	e26
 #
 ####################################
 product		version		qual	flags		<table_format=2>
-canvas_root_io	v1_13_06	-
+canvas_root_io	v1_14_02	-
 cetmodules	v3_27_04	-	only_for_build
 end_product_list
 ####################################
@@ -302,10 +302,6 @@ end_product_list
 #
 ####################################
 qualifier	canvas_root_io	notes
-c14:debug	c14:debug
-c14:prof	c14:prof
-e26:debug	e26:debug
-e26:prof	e26:prof
 e28:debug	e28:debug
 e28:prof	e28:prof
 end_qualifier_list
